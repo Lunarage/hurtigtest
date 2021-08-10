@@ -1,0 +1,12 @@
+{% extends 'html.twig' %}
+
+{% block content %}
+  <form method="POST" onSubmit="validateForm">
+    <label for="input-name"></label>
+    <input id="input-name" type="text" name="name" />
+    <label for="input-tlf"></label>
+    <input id="input-tlf" type="text" name="tlf" />
+    <label for="input-mail"></label>
+    <input id="input" type="text" name="mail" />
+  </form>
+{% endblock %}
