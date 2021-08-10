@@ -1,12 +1,29 @@
 {% extends 'html.twig' %}
 
 {% block content %}
+  <h1>Hurtigtest</h1>
   <form method="POST" onSubmit="validateForm">
-    <label for="input-name"></label>
-    <input id="input-name" type="text" name="name" />
-    <label for="input-tlf"></label>
-    <input id="input-tlf" type="text" name="tlf" />
-    <label for="input-mail"></label>
-    <input id="input" type="text" name="mail" />
+    <label for="input-name">Navn</label>
+    <input id="input-name" type="text" name="name" required />
+    <label for="input-tlf">Telefon</label>
+    <input id="input-tlf" type="text" name="tlf" required />
+    <label for="input-mail">E-post</label>
+    <input id="input" type="text" name="mail" required />
+    <label for="input-personnummer">Personnummer</label>
+    <input id="input" type="text" name="personnummer" required />
+    <p style="grid-column: 1 / -1; font-weight: bold; text-align: center">Tidspunkt</p>
+    <div style="grid-column: 1 / -1">
+      <input id="input-time1" type="radio" name="time" required />
+      <label for="input-time1">Mandag 16. August 12:00 - 12:30</label>
+    </div>
+    <div style="grid-column: 1 / -1">
+      <input id="input-time2" type="radio" name="time" required />
+      <label for="input-time2">Mandag 16. August 12:30 - 13:00</label>
+    </div>
+    <div style="grid-column: 1 / -1">
+      <input id="input-time3" type="radio" name="time" required />
+      <label for="input-time3">Mandag 16. August 13:00 - 13:30</label>
+    </div>
+    <input type="submit" style="grid-column: 1 / -1" />
   </form>
 {% endblock %}
