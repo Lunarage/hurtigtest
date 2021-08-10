@@ -1,2 +1,5 @@
+# local config does not belong in git
+include/config-local.php
+
 # ide spesific
 tags
