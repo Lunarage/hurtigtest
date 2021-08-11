@@ -1,6 +1,9 @@
 <?php
 require_once "../include/init.php";
 
+use PHPMailer\PHPMailer\PHPMailer;
+require_once "libphp-phpmailer/autoload.php";
+
 $arguments["title"] = "Hurtigtest";
 
 // Check that all inputs are set
@@ -19,28 +22,54 @@ if (
 }
 
 // Validate phone number
-if (false) {
+if (!preg_match('/^(\+[0-9]+)? *([0-9] *){5,}$/', $_POST["tlf"])) {
   $arguments["errorMessage"] = "Ugyldig telefonnummer.";
   $twig->load("submit.twig")->display($arguments);
   die();
 }
 
 // Validate e-mail address
-if (false) {
+if (!PHPMailer::validateAddress($_POST["mail"])) {
   $arguments["errorMessage"] = "Ugyldig e-postadresse.";
   $twig->load("submit.twig")->display($arguments);
   die();
 }
 
 // Validate fødselsnummer
-if (false) {
+$number = $_POST["fødselsnummer"];
+$k1 =
+  11 -
+  ((3 * $number[0] +
+    7 * $number[1] +
+    6 * $number[2] +
+    1 * $number[3] +
+    8 * $number[4] +
+    9 * $number[5] +
+    4 * $number[6] +
+    5 * $number[7] +
+    2 * $number[8]) %
+    11);
+$k2 =
+  11 -
+  ((5 * $number[0] +
+    4 * $number[1] +
+    3 * $number[2] +
+    2 * $number[3] +
+    7 * $number[4] +
+    6 * $number[5] +
+    5 * $number[6] +
+    4 * $number[7] +
+    3 * $number[8] +
+    2 * $number[9]) %
+    11);
+if (!(strlen($number) == 11 && $number[9] == $k1 && $number[10] == $k2)) {
   $arguments["errorMessage"] = "Ugyldig fødselsnummer.";
   $twig->load("submit.twig")->display($arguments);
   die();
 }
 
 // Validate time selection
-if (false) {
+if (!is_numeric($_POST["time"])) {
   $arguments["errorMessage"] = "Ugyldig valg av tidspunkt.";
   $twig->load("submit.twig")->display($arguments);
   die();
@@ -65,12 +94,13 @@ $result = pg_query_params($query, $params);
 // Handle database error
 if (!$result) {
   $error = pg_last_error();
-  if(strpos($error, "Tidspunktet er fullt")){
+  if (strpos($error, "Tidspunktet er fullt")) {
     $arguments["errorMessage"] = "Tidspunktet er fullbooket.";
     $twig->load("submit.twig")->display($arguments);
     die();
-  } else if(strpos($error, "paameldinger_unique_tlf_per_tidspunkt")){
-    $arguments["errorMessage"] = "Du kan bare melde deg på en gang i hvert tidsrom.";
+  } elseif (strpos($error, "paameldinger_unique_tlf_per_tidspunkt")) {
+    $arguments["errorMessage"] =
+      "Du kan bare melde deg på en gang i hvert tidsrom.";
     $twig->load("submit.twig")->display($arguments);
     die();
   } else {
