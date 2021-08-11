@@ -1,29 +1,89 @@
 {% extends 'html.twig' %}
 
+{% set phoneExpr = '^(\\+[0-9]+)? *([0-9] *){5,}$' %}
+{% set mailExpr = '^\\S+@\\S+$' %}
+
 {% block content %}
   <h1>Hurtigtest</h1>
-  <form method="POST" onSubmit="validateForm">
-    <label for="input-name">Navn</label>
-    <input id="input-name" type="text" name="name" required />
-    <label for="input-tlf">Telefon</label>
-    <input id="input-tlf" type="text" name="tlf" required />
-    <label for="input-mail">E-post</label>
-    <input id="input" type="text" name="mail" required />
-    <label for="input-personnummer">Personnummer</label>
-    <input id="input" type="text" name="personnummer" required />
-    <p style="grid-column: 1 / -1; font-weight: bold; text-align: center">Tidspunkt</p>
-    <div style="grid-column: 1 / -1">
-      <input id="input-time1" type="radio" name="time" required />
-      <label for="input-time1">Mandag 16. August 12:00 - 12:30</label>
-    </div>
-    <div style="grid-column: 1 / -1">
-      <input id="input-time2" type="radio" name="time" required />
-      <label for="input-time2">Mandag 16. August 12:30 - 13:00</label>
-    </div>
-    <div style="grid-column: 1 / -1">
-      <input id="input-time3" type="radio" name="time" required />
-      <label for="input-time3">Mandag 16. August 13:00 - 13:30</label>
-    </div>
-    <input type="submit" style="grid-column: 1 / -1" />
-  </form>
+  <p class="warning">
+    Denne siden er fortsatt under utvikling og er ikke tatt i bruk.
+  </p>
+  {% if free > 0 %}
+    <form
+      id="input-form"
+      method="POST"
+      action="do-submit.php"
+      onSubmit="return validateForm()"
+    >
+      <h2 style="grid-column: 1 / -1; font-weight: bold; text-align: center">
+        Personalia
+      </h2>
+      <label for="input-name">Navn</label>
+      <input id="input-name" type="text" name="name" required />
+      <label for="input-tlf">Telefon</label>
+      <input
+        id="input-tlf"
+        type="text"
+        name="tlf"
+        pattern="{{ phoneExpr }}"
+        required
+      />
+      <label for="input-mail">E-post</label>
+      <input
+        id="input-mail"
+        type="text"
+        name="mail"
+        pattern="{{ mailExpr }}"
+        required
+      />
+      <label for="input-fødselsnummer">Fødselsnummer</label>
+      <input
+        id="input-fødselsnummer"
+        type="text"
+        name="fødselsnummer"
+        onChange="validateFødselsnummer()"
+        required
+      />
+      <h2 style="grid-column: 1 / -1; text-align: center">Tidspunkt</h2>
+      {% for tidspunkt in tidspunkter %}
+        {% set labeltext = tidspunkt.weekday ~ ' ' ~ tidspunkt.day ~ '. '
+          ~ tidspunkt.month
+          ~ '<br/>kl.&nbsp;'
+          ~ tidspunkt.startTime
+          ~ '&nbsp;-&nbsp;'
+          ~ tidspunkt.endTime
+        %}
+        <div style="grid-column: 1 / -1">
+          {% if tidspunkt.paameldte >= tidspunkt.plasser %}
+            <input
+              id="input-time-{{ tidspunkt.id }}"
+              type="radio"
+              value="{{ tidspunkt.id }}"
+              disabled
+            />
+            <label for="input-time-{{ tidspunkt.id }}">
+              <span>Fullt</span>
+              <span>{{ labeltext|raw }}</span>
+            </label>
+          {% else %}
+            <input
+              id="input-time-{{ tidspunkt.id }}"
+              type="radio"
+              name="time"
+              value="{{ tidspunkt.id }}"
+              onChange="validateRadios();"
+            />
+            <label for="input-time-{{ tidspunkt.id }}">
+              <span style="flex-basis: 100%">{{ labeltext|raw }}</span>
+            </label>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <p id="input-message" style="display: none; grid-column: 1 / -1;"></p>
+      <input type="submit" style="grid-column: 1 / -1;" value="Bestill" />
+    </form>
+    <script>loadInfo();</script>
+  {% else %}
+    <p>Det er for øyeblikket ingen ledige tidspunkter</p>
+  {% endif %}
 {% endblock %}

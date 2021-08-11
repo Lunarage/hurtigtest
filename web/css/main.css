@@ -1,12 +1,17 @@
+:root{
+  --input-padding: 1em;
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-
+  font-family: 'Roboto', sans-serif;
   font-size: 100%;
+
+  margin: 0;
+  padding: 0.5rem;
 
   display: flex;
   flex-flow: column nowrap;
@@ -14,6 +19,54 @@ body {
 
   min-height: 100vh;
   max-width: 100%;
+
+  background-color: #FFF;
+  color: #333;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #333;
+    color: #FFF;
+  }
+}
+
+p.info, p.warning, p.error {
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 4px;
+
+  padding: var(--input-padding);
+  font-size: 1.2em;
+  margin: 0.25em;
+
+  background-repeat: no-repeat;
+  background-size: 0.9em;
+  background-position: left 0.1em top 0.1em;
+}
+
+p.warning {
+  border-color: #DD2;
+  background-color: #FF7;
+  color: #333;
+
+  background-image: url('/images/warning.svg');
+}
+
+p.info {
+  border-color: #2D2;
+  background-color: #7F7;
+  color: #333;
+
+  background-image: url('/images/ok.svg');
+}
+
+p.error {
+  border-color: #D22;
+  background-color: #F77;
+  color: #333;
+
+  background-image: url('/images/error.svg');
 }
 
 form {
@@ -32,34 +85,123 @@ form>div>label {
   width: 100%;
 }
 
-input {
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
+input, select {
+  font-size: 1.25em;
+
+  border-width: 2px;
+  border-color: transparent;
+  border-style: solid;
+  border-radius: 4px;
+
+  background-color: #EEE;
+
+  padding-left: var(--input-padding);
+  padding-right: var(--input-padding);
+  padding-top: var(--input-padding);
+  padding-bottom: var(--input-padding);
+}
+
+@media (prefers-color-scheme: dark) {
+  input, select {
+    background-color: #444;
+    color: #FFF;
+  }
+}
+
+label {
+  font-size: 1.25em;
+}
+
+input:required:invalid {
+  border-color: red;
+
+  background-repeat: no-repeat;
+  background-size: 0.9em;
+  background-position: left 0.1em top 0.1em;
+  background-image: url('/images/error.svg');
+}
+
+input:required:valid {
+  border-color: lime;
+
+  background-repeat: no-repeat;
+  background-size: 0.9em;
+  background-position: left 0.1em top 0.1em;
+  background-image: url('/images/ok.svg');
+}
+
+@media (prefers-color-scheme: dark) {
+  input:required:invalid {
+    border-color: #C55;
+  }
+
+  input:required:valid {
+    border-color: #5C5;
+  }
 }
 
 input[type=text] {
-  min-width: 32ch;
+  min-width: 24ch;
 }
 
 input[type=radio] {
   display: none;
 }
 
+input[type=submit] {
+  font-size: 1.25em;
+  border-color: #CCC;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+
+@media (prefers-color-scheme: dark) {
+input[type=submit] {
+  border-color: #555;
+}
+}
+
 input[type=radio] + label {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  align-content: center;
+  justify-content: space-between;
+
   border-width: 2px;
   border-style: solid;
   border-radius: 4px;
   border-color: blue;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
+
+  font-weight: bold;
+
+  padding-left: var(--input-padding);
+  padding-right: var(--input-padding);
+  padding-top: var(--input-padding);
+  padding-bottom: var(--input-padding);
+
+  cursor: pointer;
+}
+
+input[type=radio]:disabled + label {
+  border-color: darkgray;
+  background-color:lightgray;
+  color: gray;
+  cursor: default;
+}
+
+@media (prefers-color-scheme: dark) {
+  input[type=radio]:disabled + label {
+    border-color: darkgray;
+    background-color:gray;
+    color: lightgray;
+    cursor: default;
+  }
 }
 
 input[type=radio]:checked + label {
-  background-color:lightblue;
+  background-color:blue;
+  color: #FFF;
 }
 
 @media only screen and (min-width: 768px){
