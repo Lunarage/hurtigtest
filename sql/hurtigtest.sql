@@ -19,14 +19,17 @@ CREATE TABLE IF NOT EXISTS paameldinger (
     navn varchar NOT NULL,
     tlf varchar NOT NULL,
     epost varchar NOT NULL,
-    personnummer varchar NOT NULL,
+    foedselsnummer varchar NOT NULL,
     tidspunkt_id int NOT NULL,
     CONSTRAINT paameldinger_pk PRIMARY KEY(id),
+    CONSTRAINT paameldinger_unique_tlf_per_tidspunkt UNIQUE(tlf, tidspunkt_id),
     CONSTRAINT tidspunkt_fk FOREIGN KEY(tidspunkt_id) REFERENCES tidspunkter(id)
   );
 
 REVOKE ALL ON TABLE paameldinger FROM PUBLIC;
 GRANT ALL ON TABLE paameldinger TO hurtigtest;
+
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA hurtigtest TO hurtigtest;
 
 -- Function to check if tidspunkt is fully booked
 CREATE OR REPLACE FUNCTION enforce_plasser() RETURNS trigger AS $$
@@ -58,6 +61,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- trigger on insert on paameldinger
+DROP TRIGGER IF EXISTS enforce_plasser ON paameldinger;
 CREATE TRIGGER enforce_plasser
   BEFORE INSERT ON paameldinger
   FOR EACH ROW EXECUTE PROCEDURE enforce_plasser();

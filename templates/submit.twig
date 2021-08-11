@@ -1,0 +1,10 @@
+{% extends 'html.twig' %}
+
+{% block content %}
+  {% if errorMessage %}
+    <p class="error">{{ errorMessage }}</p>
+  {% else %}
+    <p class="info">Vellykket registrering!</p>
+  {% endif %}
+  <a href="/">Bestill ny time</a>
+{% endblock %}
