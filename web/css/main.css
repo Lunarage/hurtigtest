@@ -38,6 +38,7 @@ p.info, p.warning, p.error {
 
   padding: var(--input-padding);
   font-size: 1.2em;
+  font-weight: bold;
   margin: 0.25em;
 
   background-repeat: no-repeat;
@@ -67,6 +68,17 @@ p.error {
   color: #333;
 
   background-image: url('/images/error.svg');
+}
+
+a, a:visited {
+  color: blue;
+  font-size: 1.2em;
+}
+
+@media (prefers-color-scheme: dark) {
+  a, a:visited {
+    color: #CCF;
+  }
 }
 
 form {
