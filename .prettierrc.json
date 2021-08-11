@@ -1,0 +1,9 @@
+{
+  "phpVersion": "7.3",
+  "tabWidth": 2,
+  "printWidth": 80,
+  "twigSingleQuote": true,
+  "twigMelodyPlugins": ["node_modules/prettier-plugin-twig-enhancements"],
+  "twigPrintWidth": 80,
+  "twigFollowOfficialCodingStandards": true
+}
