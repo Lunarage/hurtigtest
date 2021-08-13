@@ -48,7 +48,7 @@ body {
   color: var(--text-color);
 }
 
-p.info, p.warning, p.error {
+p.info, p.ok, p.error {
   border-width: 2px;
   border-style: solid;
   border-radius: 4px;
@@ -63,15 +63,15 @@ p.info, p.warning, p.error {
   background-position: left 0.1em top 0.1em;
 }
 
-p.warning {
+p.info {
   border-color: #DD2;
   background-color: #FF7;
   color: #333;
 
-  background-image: url('/images/warning.svg');
+  background-image: url('/images/info.svg');
 }
 
-p.info {
+p.ok {
   border-color: #2D2;
   background-color: #7F7;
   color: #333;
