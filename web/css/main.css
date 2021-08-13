@@ -1,5 +1,29 @@
 :root{
+  --background-color: #FFF;
+  --text-color: #333;
   --input-padding: 1em;
+  --input-background-color: #EEE;
+  --input-border-color: #CCC;
+  --text-color: #333;
+  --input-text-color: #333;
+  --input-disabled-text-color:#888;
+  --input-disabled-background-color:#DDD;
+  --input-disabled-border-color:#AAA;
+}
+
+/* dark mode colors */
+@media (prefers-color-scheme: dark) {
+  :root{
+    --background-color: #333;
+    --text-color: #FFF;
+    --input-background-color: #444;
+    --input-border-color: #555;
+    --text-color: #FFF;
+    --input-text-color: #FFF;
+    --input-disabled-text-color:#DDD;
+    --input-disabled-background-color:#888;
+    --input-disabled-border-color:#DDD;
+  }
 }
 
 * {
@@ -20,15 +44,8 @@ body {
   min-height: 100vh;
   max-width: 100%;
 
-  background-color: #FFF;
-  color: #333;
-}
-
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: #333;
-    color: #FFF;
-  }
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 p.info, p.warning, p.error {
@@ -75,12 +92,6 @@ a, a:visited {
   font-size: 1.2em;
 }
 
-@media (prefers-color-scheme: dark) {
-  a, a:visited {
-    color: #CCF;
-  }
-}
-
 form {
   display: grid;
   align-items: center;
@@ -105,19 +116,14 @@ input, select {
   border-style: solid;
   border-radius: 4px;
 
-  background-color: #EEE;
+  border-color: var(--input-border-color);
+  background-color: var(--input-background-color);
+  color: var(--input-color);
 
   padding-left: var(--input-padding);
   padding-right: var(--input-padding);
   padding-top: var(--input-padding);
   padding-bottom: var(--input-padding);
-}
-
-@media (prefers-color-scheme: dark) {
-  input, select {
-    background-color: #444;
-    color: #FFF;
-  }
 }
 
 label {
@@ -142,16 +148,6 @@ input:required:valid {
   background-image: url('/images/ok.svg');
 }
 
-@media (prefers-color-scheme: dark) {
-  input:required:invalid {
-    border-color: #C55;
-  }
-
-  input:required:valid {
-    border-color: #5C5;
-  }
-}
-
 input[type=text] {
   min-width: 24ch;
 }
@@ -162,15 +158,8 @@ input[type=radio] {
 
 input[type=submit] {
   font-size: 1.25em;
-  border-color: #CCC;
   cursor: pointer;
   -webkit-appearance: none;
-}
-
-@media (prefers-color-scheme: dark) {
-input[type=submit] {
-  border-color: #555;
-}
 }
 
 input[type=radio] + label {
@@ -185,6 +174,9 @@ input[type=radio] + label {
   border-radius: 4px;
   border-color: blue;
 
+  background-color: var(--input-background-color);
+  color: var(--input-text-color);
+
   font-weight: bold;
 
   padding-left: var(--input-padding);
@@ -196,23 +188,14 @@ input[type=radio] + label {
 }
 
 input[type=radio]:disabled + label {
-  border-color: darkgray;
-  background-color:lightgray;
-  color: gray;
+  border-color: var(--input-disabled-border-color);
+  background-color: var(--input-disabled-background-color);
+  color: var(--input-disabled-text-color);
   cursor: default;
 }
 
-@media (prefers-color-scheme: dark) {
-  input[type=radio]:disabled + label {
-    border-color: darkgray;
-    background-color:gray;
-    color: lightgray;
-    cursor: default;
-  }
-}
-
 input[type=radio]:checked + label {
-  background-color:blue;
+  background-color: blue;
   color: #FFF;
 }
 
@@ -224,5 +207,27 @@ input[type=radio]:checked + label {
 
   form>label {
     text-align: right;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  a, a:visited {
+    color: #CCF;
+  }
+
+  input:required:invalid {
+    border-color: #C55;
+  }
+
+  input:required:valid {
+    border-color: #5C5;
+  }
+
+  input[type=radio] + label {
+    border-color: #33C;
+  }
+
+  input[type=radio]:checked + label {
+    background-color: #33C;
   }
 }
