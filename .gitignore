@@ -1,5 +1,9 @@
 # local config does not belong in git
 include/config-local.php
+bin/dbconfig.py
+
+# python
+bin/__pycache__/*
 
 # ide spesific
 tags
