@@ -48,6 +48,10 @@ body {
   color: var(--text-color);
 }
 
+p {
+  max-width: 80ch;
+}
+
 p.info, p.ok, p.error {
   border-width: 2px;
   border-style: solid;
