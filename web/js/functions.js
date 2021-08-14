@@ -78,6 +78,7 @@ function validateFødselsnummer() {
 }
 
 function validateRadios() {
+  const urlParams = new URLSearchParams(window.location.search);
   let messageBox = document.getElementById("input-message");
   messageBox.innerHTML = "";
   messageBox.style.display = "none";
@@ -90,7 +91,11 @@ function validateRadios() {
     }
   });
   if (!radioValid) {
-    messageBox.innerText = "Du må velge et tidspunkt.";
+    if(urlParams.get("lang") == "en") {
+      messageBox.innerText = "You must choose a timeframe.";
+    } else {
+      messageBox.innerText = "Du må velge et tidspunkt.";
+    }
     messageBox.className = "error";
     messageBox.style.display = "block";
   }

@@ -2,73 +2,139 @@
 {% import 'macros_forms.twig' as forms %}
 
 {% block content %}
-  <h1>Hurtigtest</h1>
-  <p class="info">
-    Denne siden er fortsatt under utvikling og er ikke tatt i bruk.
-  </p>
-  <p>
-    For å komme inn på arrangement under immen er det krav om at alle har grønt
-    koronasertifikat.
-  </p>
+  {% if lang == 'en' %}
+    <h1>Rapid test</h1>
+    <p>Welcome to Trondheim and the student startup weeks ("immen")</p>
 
-  <p>Det får du hvis du:</p>
-  <ul>
-    <li>Har fått din første vaksine for mellom 3-15 uker den.</li>
-    <li>Vært smittet av Covid i løpet av de siste seks månedene.</li>
-    <li>En negativ koronatest i løpet av de siste 24 timer.</li>
-  </ul>
+    <p>
+      For access to some of the events, you need to have a clear Covid-19
+      certificate (EU certificates are supported)
+    </p>
 
-  <p>
-    Dersom du har ett eller flere av følgende symptomer: feber, hoste, sår hals,
-    eller dersom du har vært i kontakt med noen som har slike symptomer de siste
-    48 timer, – kan du ikke komme til teststasjon eller til arrangement!
-  </p>
+    <p>
+      If you don't have a valid Covid-19 certificate, you can get a free rapid
+      test at our test station at "Trafon" located in "Klæbuveien 1"
+    </p>
 
-  <p>
-    Vi har satt opp en hurtigteststasjon utenfor "Trafon" i Klæbuveien 1, midt
-    mellom Hovedbygget og Studentersamfundet
-  </p>
-  <!-- https://www.google.com/maps/place/Trafon/@63.4209991,10.3978665,18z/data=!3m1!4b1!4m5!3m4!1s0x466d31941f6138fb:0x7c23ac6ac8807c75!8m2!3d63.4210095!4d10.3988443<p -->
-  <p>
-    Dersom du er avhengig av å ta en enkel hurtigtest kan du bestille dette ved
-    å klikke på lenken under. Testen er gratis for alle som skal på arrangement.
-    Testen må ikke være eldre enn 24 timer fra testtidspunkt til
-    arrangementsstart.
-  </p>
+    <!-- https://www.google.com/maps/place/Trafon/@63.4209991,10.3978665,18z/data=!3m1!4b1!4m5!3m4!1s0x466d31941f6138fb:0x7c23ac6ac8807c75!8m2!3d63.4210095!4d10.3988443 -->
 
-  <p>
-    Ved negativ test vil du få testbevis i helsenorge på mobil. Dette må vises
-    frem sammen med billett til arrangement.
-  </p>
+    <p>
+      If you have one or more of the these symptoms: fever, sore throat, cough,
+      or you have been in contact with anyone with those symptoms the last 48
+      hours, you can't come to the test station or to the events.
+    </p>
 
-  <p>
-    Ved positiv test får du beskjed om å gå hjem og holde deg hjemme i
-    isolasjon. Smittevernseksjonen ved Trondheim kommune får umiddelbar beskjed
-    og smittesporing vil bli iverksatt.
-  </p>
+    <p>
+      The test result will be available in about 30 minutes, and is valid for 24
+      hours.
+    </p>
 
-  <p>
-    Husk å laste ned "Helsenorge"-appen, og logg på, og finn frem
-    koronasertifikatet før du kommer til arrangementet. Da går alt så mye
-    raskere.
-  </p>
+    <p>
+      A negative test will give you a temporary certificate in the helsenorge.no
+      app, if you have a Norwegian personnummer or D-number. If you don't have
+      such an ID yet, you will be issued a paper certificate at the test
+      station.
+    </p>
 
-  {% set checkboxtext =
-    'Jeg bekrefter at jeg jeg er frisk, og ikke har noen av følgende symptomer:
+    <p>
+      A positive test will be reported to the municipality health service, who
+      will contact you. Don't worry - they are very nice people.
+    </p>
+
+    <p>
+      Please download the Helsenorge app (for those with Norwegian ID number)
+      before you come to the event, and be ready to show the certificate at the
+      door. If we all have everything ready, entry will be a smooth process for
+      everyone.
+    </p>
+
+    {% set checkboxtext =
+      "I confirm that I don't have one or more of the symptoms: fever, sore
+    throat, cough - and- I have not been in contact with anyone with those
+    symptoms for the last 24 hours"
+    %}
+    {{
+      forms.checkbox(
+        'self-declaration',
+        'self-declaration',
+        checkboxtext,
+        'selfDeclarationBox()'
+      )
+    }}
+
+    <a style="display: none;" id="link-form" href="/form.php?lang=en">
+      Sign up for rapid test
+    </a>
+  {% else %}
+    <h1>Hurtigtest</h1>
+    <a href="?lang=en">English version</a>
+    <p class="info">
+      Denne siden er fortsatt under utvikling og er ikke tatt i bruk.
+    </p>
+    <p>
+      For å komme inn på arrangement under immen er det krav om at alle har
+      grønt koronasertifikat.
+    </p>
+
+    <p>Det får du hvis du:</p>
+    <ul>
+      <li>Har fått din første vaksine for mellom 3-15 uker den.</li>
+      <li>Vært smittet av Covid i løpet av de siste seks månedene.</li>
+      <li>En negativ koronatest i løpet av de siste 24 timer.</li>
+    </ul>
+
+    <p>
+      Dersom du har ett eller flere av følgende symptomer: feber, hoste, sår
+      hals, eller dersom du har vært i kontakt med noen som har slike symptomer
+      de siste 48 timer, – kan du ikke komme til teststasjon eller til
+      arrangement!
+    </p>
+
+    <p>
+      Vi har satt opp en hurtigteststasjon utenfor "Trafon" i Klæbuveien 1, midt
+      mellom Hovedbygget og Studentersamfundet
+    </p>
+    <!-- https://www.google.com/maps/place/Trafon/@63.4209991,10.3978665,18z/data=!3m1!4b1!4m5!3m4!1s0x466d31941f6138fb:0x7c23ac6ac8807c75!8m2!3d63.4210095!4d10.3988443<p -->
+    <p>
+      Dersom du er avhengig av å ta en enkel hurtigtest kan du bestille dette
+      ved å klikke på lenken under. Testen er gratis for alle som skal på
+      arrangement. Testen må ikke være eldre enn 24 timer fra testtidspunkt til
+      arrangementsstart.
+    </p>
+
+    <p>
+      Ved negativ test vil du få testbevis i helsenorge på mobil. Dette må vises
+      frem sammen med billett til arrangement.
+    </p>
+
+    <p>
+      Ved positiv test får du beskjed om å gå hjem og holde deg hjemme i
+      isolasjon. Smittevernseksjonen ved Trondheim kommune får umiddelbar
+      beskjed og smittesporing vil bli iverksatt.
+    </p>
+
+    <p>
+      Husk å laste ned "Helsenorge"-appen, og logg på, og finn frem
+      koronasertifikatet før du kommer til arrangementet. Da går alt så mye
+      raskere.
+    </p>
+
+    {% set checkboxtext =
+      'Jeg bekrefter at jeg jeg er frisk, og ikke har noen av følgende symptomer:
       feber, hoste, sår hals, og at jeg ikke har vært i kontakt med noen som har
       slike symptomer de siste 24 timer.'
-  %}
-  {{
-    forms.checkbox(
-      'self-declaration',
-      'self-declaration',
-      checkboxtext,
-      'selfDeclarationBox()'
-    )
-  }}
-  <a style="display: none;" id="link-form" href="/form.php">
-    Bestill hurtigtest
-  </a>
+    %}
+    {{
+      forms.checkbox(
+        'self-declaration',
+        'self-declaration',
+        checkboxtext,
+        'selfDeclarationBox()'
+      )
+    }}
+    <a style="display: none;" id="link-form" href="/form.php">
+      Bestill hurtigtest
+    </a>
+  {% endif %}
   <script>selfDeclarationBox()</script>
 {% endblock %}
-

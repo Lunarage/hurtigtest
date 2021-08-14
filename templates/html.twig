@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<html lang="no_nb">
+{% if lang == 'en' %}
+  {% set languagecode = 'en' %}
+{% else %}
+  {% set languagecode = 'no-nb' %}
+{% endif %}
+<html lang="{{ languagecode }}">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,11 +20,16 @@
     {% block script %}
       <script src="/js/functions.js"></script>
     {% endblock %}
-    {% block style %}
-    {% endblock %}
+    {% block style %}{% endblock %}
   </head>
   <body>
     <div class="content">{% block content %}{% endblock %}</div>
-    <div class="footer"><a href="/personvern.php">Personvernserklæring</a></div>
+    <div class="footer">
+      {% if lang == 'en' %}
+        <a href="/personvern.php?lang=en">Privacy Policy</a>
+      {% else %}
+        <a href="/personvern.php">Personvernserklæring</a>
+      {% endif %}
+    </div>
   </body>
 </html>

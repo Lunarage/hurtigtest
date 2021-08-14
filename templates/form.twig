@@ -5,29 +5,56 @@
 {% set mailExpr = '^\\S+@\\S+$' %}
 
 {% block content %}
-  <h1>Hurtigtest</h1>
+  {% if lang == 'en' %}
+    {% set action = 'do-submit.php?lang=en' %}
+    {% set hurtigtest = 'Rapid test' %}
+    {% set personalia = 'Personalia' %}
+    {% set navn = 'Name' %}
+    {% set tlf = 'Phone' %}
+    {% set epost = 'E-mail' %}
+    {% set foedselsnummer = 'National identity number/<br/>D number' %}
+    {% set noFoedselsnummer =
+      "I don't have a <br/> National identity number/<br/>D number"
+    %}
+    {% set tidspunktTittel = 'Time' %}
+    {% set noTime = 'There are no free slots at the moment.' %}
+    {% set fullt = 'Full' %}
+    {% set bestill = 'Sign up' %}
+  {% else %}
+    {# Defaults to norwegian #}
+    {% set action = 'do-submit.php' %}
+    {% set hurtigtest = 'Hurtigtest' %}
+    {% set personalia = 'Personalia' %}
+    {% set navn = 'Navn' %}
+    {% set epost = 'E-post' %}
+    {% set foedselsnummer = 'Fødselsnummer/<br/>D-nummer' %}
+    {% set noFoedselsnummer = 'Jeg har ikke<br/>Fødselsnummer/<br/>D-nummer' %}
+    {% set tidspunktTittel = 'Tidspunkt' %}
+    {% set noTime = 'Det er for øyeblikket ingen ledige tidspunkter.' %}
+    {% set fullt = 'Fullt' %}
+    {% set bestill = 'Bestill' %}
+  {% endif %}
+  <h1>{{ hurtigtest }}</h1>
   <p class="info">
-    Denne siden er fortsatt under utvikling og er ikke tatt i bruk.
+    Denne siden er fortsatt under utvikling og er ikke tatt i bruk.<br />
+    This page is still in development and is not in use yet.
   </p>
-  <p>
-    Den personlige informasjonen du sender inn vil bli brukt for å identifiesre
-    deg overfor helsenorge og for å verifisere din påmelding ved oppmøte. Denne
-    informasjonen slettes fra våre systemer en dag etter tidspunktet du
-    melder deg på.
-  </p>
+  {% if lang != 'en' %}
+    <a href="?lang=en">English version</a>
+  {% endif %}
   {% if free > 0 %}
     <form
       id="input-form"
       method="POST"
-      action="do-submit.php"
+      action="{{ action }}"
       onSubmit="return validateForm()"
     >
       <h2 style="grid-column: 1 / -1; font-weight: bold; text-align: center">
-        Personalia
+        {{ personalia }}
       </h2>
-      <label for="input-name">Navn</label>
+      <label for="input-name">{{ navn }}</label>
       <input id="input-name" type="text" name="name" required />
-      <label for="input-tlf">Telefon</label>
+      <label for="input-tlf">{{ tlf }}</label>
       <input
         id="input-tlf"
         type="text"
@@ -35,7 +62,7 @@
         pattern="{{ phoneExpr }}"
         required
       />
-      <label for="input-mail">E-post</label>
+      <label for="input-mail">{{ epost }}</label>
       <input
         id="input-mail"
         type="text"
@@ -43,7 +70,9 @@
         pattern="{{ mailExpr }}"
         required
       />
-      <label id="label-fødselsnummer" for="input-fødselsnummer">Fødselsnummer/<br/>D-nummer</label>
+      <label id="label-fødselsnummer" for="input-fødselsnummer">
+        {{ foedselsnummer|raw }}
+      </label>
       <input
         id="input-fødselsnummer"
         type="text"
@@ -51,13 +80,22 @@
         onChange="validateFødselsnummer()"
         required
       />
-      <label for="input-no-fødselsnummer">Jeg har ikke<br /> fødselsnummer/<br/>D-nummer</label>
-      {{ forms.checkbox("input-no-fødselsnummer", "no_fødselsnummer", null, "validateFødselsnummer()") }}
-      <h2 style="grid-column: 1 / -1; text-align: center">Tidspunkt</h2>
+      <label for="input-no-fødselsnummer">{{ noFoedselsnummer|raw }}</label>
+      {{
+        forms.checkbox(
+          'input-no-fødselsnummer',
+          'no_fødselsnummer',
+          null,
+          'validateFødselsnummer()'
+        )
+      }}
+      <h2 style="grid-column: 1 / -1; text-align: center">
+        {{ tidspunktTittel }}
+      </h2>
       {% for tidspunkt in tidspunkter %}
         {% set labeltext = tidspunkt.weekday ~ ' ' ~ tidspunkt.day ~ '. '
           ~ tidspunkt.month
-          ~ '<br/>kl.&nbsp;'
+          ~ '<br/>'
           ~ tidspunkt.startTime
           ~ '&nbsp;-&nbsp;'
           ~ tidspunkt.endTime
@@ -71,7 +109,7 @@
               disabled
             />
             <label for="input-time-{{ tidspunkt.id }}">
-              <span>Fullt</span>
+              <span>{{ fullt }}</span>
               <span>{{ labeltext|raw }}</span>
             </label>
           {% else %}
@@ -89,10 +127,10 @@
         </div>
       {% endfor %}
       <p id="input-message" style="display: none; grid-column: 1 / -1;"></p>
-      <input type="submit" style="grid-column: 1 / -1;" value="Bestill" />
+      <input type="submit" style="grid-column: 1 / -1;" value="{{ bestill }}" />
     </form>
     <script>loadInfo();validateFødselsnummer();</script>
   {% else %}
-    <p class="info">Det er for øyeblikket ingen ledige tidspunkter</p>
+    <p class="info">{{ noTime }}</p>
   {% endif %}
 {% endblock %}
