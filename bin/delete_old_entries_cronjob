@@ -1,0 +1,48 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+"""
+    This script deletes old entries because personvern.
+"""
+
+import sys
+import psycopg2 as psycopg
+import dbconfig as conf
+
+Q0 = """
+    DELETE FROM hurtigtest.paameldinger
+    WHERE age(
+        (SELECT slutt_tid FROM hurtigtest.tidspunkter WHERE id = tidspunkt_id)
+        ) > %s
+    """
+P0 = (conf.DELETE_AGE, )
+
+def main():
+    try:
+        db_conn = psycopg.connect(
+            host=conf.HOST,
+            database=conf.DATABASE,
+            user=conf.USER,
+            password=conf.PASSWORD
+        )
+        db_cursor = db_conn.cursor()
+
+        # Set correct time zone
+        db_cursor.execute("SET TIME ZONE 'Europe/Oslo'")
+
+        # Query
+        db_cursor.execute(Q0, P0)
+        if conf.DEBUG:
+            rowcount = 0
+            rowcount = db_cursor.rowcount
+            sys.stdout.write(str(rowcount) + " rows deleted from paameldinger\n\r")
+            sys.stdout.flush()
+
+    except (Exception, psycopg.DatabaseError) as error:
+        sys.stderr.write(str(error) + '\r\n')
+        sys.stderr.flush()
+    finally:
+        if db_conn is not None:
+            db_conn.close()
+
+if __name__ == "__main__":
+    main()
