@@ -1,6 +1,7 @@
 # local config does not belong in git
 include/config-local.php
 bin/dbconfig.py
+.htpasswd
 
 # python
 bin/__pycache__/*
