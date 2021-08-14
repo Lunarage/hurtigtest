@@ -1,0 +1,98 @@
+{% extends 'html.twig' %}
+{% import 'macros_forms.twig' as forms %}
+
+{% set phoneExpr = '^(\\+[0-9]+)? *([0-9] *){5,}$' %}
+{% set mailExpr = '^\\S+@\\S+$' %}
+
+{% block content %}
+  <h1>Hurtigtest</h1>
+  <p class="info">
+    Denne siden er fortsatt under utvikling og er ikke tatt i bruk.
+  </p>
+  <p>
+    Den personlige informasjonen du sender inn vil bli brukt for å identifiesre
+    deg overfor helsenorge og for å verifisere din påmelding ved oppmøte. Denne
+    informasjonen slettes fra våre systemer en dag etter tidspunktet du
+    melder deg på.
+  </p>
+  {% if free > 0 %}
+    <form
+      id="input-form"
+      method="POST"
+      action="do-submit.php"
+      onSubmit="return validateForm()"
+    >
+      <h2 style="grid-column: 1 / -1; font-weight: bold; text-align: center">
+        Personalia
+      </h2>
+      <label for="input-name">Navn</label>
+      <input id="input-name" type="text" name="name" required />
+      <label for="input-tlf">Telefon</label>
+      <input
+        id="input-tlf"
+        type="text"
+        name="tlf"
+        pattern="{{ phoneExpr }}"
+        required
+      />
+      <label for="input-mail">E-post</label>
+      <input
+        id="input-mail"
+        type="text"
+        name="mail"
+        pattern="{{ mailExpr }}"
+        required
+      />
+      <label id="label-fødselsnummer" for="input-fødselsnummer">Fødselsnummer/<br/>D-nummer</label>
+      <input
+        id="input-fødselsnummer"
+        type="text"
+        name="fødselsnummer"
+        onChange="validateFødselsnummer()"
+        required
+      />
+      <label for="input-no-fødselsnummer">Jeg har ikke<br /> fødselsnummer/<br/>D-nummer</label>
+      {{ forms.checkbox("input-no-fødselsnummer", "no_fødselsnummer", null, "validateFødselsnummer()") }}
+      <h2 style="grid-column: 1 / -1; text-align: center">Tidspunkt</h2>
+      {% for tidspunkt in tidspunkter %}
+        {% set labeltext = tidspunkt.weekday ~ ' ' ~ tidspunkt.day ~ '. '
+          ~ tidspunkt.month
+          ~ '<br/>kl.&nbsp;'
+          ~ tidspunkt.startTime
+          ~ '&nbsp;-&nbsp;'
+          ~ tidspunkt.endTime
+        %}
+        <div style="grid-column: 1 / -1">
+          {% if tidspunkt.paameldte >= tidspunkt.plasser %}
+            <input
+              id="input-time-{{ tidspunkt.id }}"
+              type="radio"
+              value="{{ tidspunkt.id }}"
+              disabled
+            />
+            <label for="input-time-{{ tidspunkt.id }}">
+              <span>Fullt</span>
+              <span>{{ labeltext|raw }}</span>
+            </label>
+          {% else %}
+            <input
+              id="input-time-{{ tidspunkt.id }}"
+              type="radio"
+              name="time"
+              value="{{ tidspunkt.id }}"
+              onChange="validateRadios();"
+            />
+            <label for="input-time-{{ tidspunkt.id }}">
+              <span style="flex-basis: 100%">{{ labeltext|raw }}</span>
+            </label>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <p id="input-message" style="display: none; grid-column: 1 / -1;"></p>
+      <input type="submit" style="grid-column: 1 / -1;" value="Bestill" />
+    </form>
+    <script>loadInfo();validateFødselsnummer();</script>
+  {% else %}
+    <p class="info">Det er for øyeblikket ingen ledige tidspunkter</p>
+  {% endif %}
+{% endblock %}

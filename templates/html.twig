@@ -15,6 +15,8 @@
     {% block script %}
       <script src="/js/functions.js"></script>
     {% endblock %}
+    {% block style %}
+    {% endblock %}
   </head>
-  <body>{% block content %}{% endblock %}</body>
+  <body><div class="content">{% block content %}{% endblock %}</div></body>
 </html>

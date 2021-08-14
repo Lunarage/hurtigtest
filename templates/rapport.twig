@@ -1,0 +1,53 @@
+{% extends 'html.twig' %}
+{% import 'macros_forms.twig' as forms %}
+
+{% block style %}
+<style>
+  @media print {
+    #rapport-form {
+      display: none;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+  <h1>Rapport {{ thisTidspunkt.printTime }}</h1>
+  <form method="GET" action="" id="rapport-form">
+    <label for="select-tidspunkt">Tidsrom</label>
+    <select id="select-tidspunkt" name="tidspunkt" onChange="this.form.submit()">
+      {% for tidspunkt in tidspunkter %}
+        {% if tidspunkt.id == thisTidspunkt.id %}
+          <option value="{{ tidspunkt.id }}" selected>{{ tidspunkt.printTime }}</option>
+        {% else %}
+          <option value="{{ tidspunkt.id }}">{{ tidspunkt.printTime }}</option>
+        {% endif %}
+      {% endfor %}
+    </select>
+    <button style="grid-column: 1 / -1" type="button" onClick="window.print()">Skriv ut</button>
+  </form>
+  <table class="rapport">
+    <thead>
+      <tr>
+        <th>Navn</th>
+        <th>Fødselsnummer<wbr />/D-nummer</th>
+        <th>Telefon</th>
+        <th>E-post</th>
+        <th>Påmeldingstidspunkt</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for person in people %}
+        <tr>
+          <td>{{ person.navn }}</td>
+          <td>{{ person.foedselsnummer }}</td>
+          <td>{{ person.tlf }}</td>
+          <td>{{ person.epost }}</td>
+          <td>{{ person.paameldingstidspunkt }}</td>
+          <td class="box">&nbsp;</td>
+          <td class="box">&nbsp;</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

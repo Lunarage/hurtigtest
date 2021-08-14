@@ -12,7 +12,7 @@ if (
     isset($_POST["name"]) &&
     isset($_POST["tlf"]) &&
     isset($_POST["mail"]) &&
-    isset($_POST["fødselsnummer"]) &&
+    (isset($_POST["fødselsnummer"]) || $_POST["no_fødselsnummer"]) &&
     isset($_POST["time"])
   )
 ) {
@@ -36,36 +36,40 @@ if (!PHPMailer::validateAddress($_POST["mail"])) {
 }
 
 // Validate fødselsnummer
-$number = $_POST["fødselsnummer"];
-$k1 =
-  11 -
-  ((3 * $number[0] +
-    7 * $number[1] +
-    6 * $number[2] +
-    1 * $number[3] +
-    8 * $number[4] +
-    9 * $number[5] +
-    4 * $number[6] +
-    5 * $number[7] +
-    2 * $number[8]) %
-    11);
-$k2 =
-  11 -
-  ((5 * $number[0] +
-    4 * $number[1] +
-    3 * $number[2] +
-    2 * $number[3] +
-    7 * $number[4] +
-    6 * $number[5] +
-    5 * $number[6] +
-    4 * $number[7] +
-    3 * $number[8] +
-    2 * $number[9]) %
-    11);
-if (!(strlen($number) == 11 && $number[9] == $k1 && $number[10] == $k2)) {
-  $arguments["errorMessage"] = "Ugyldig fødselsnummer.";
-  $twig->load("submit.twig")->display($arguments);
-  die();
+// https://no.wikipedia.org/wiki/Fødselsnummer
+// Should work for D-numbers as well
+if(!$_POST["no_fødselsnummer"]){
+  $number = $_POST["fødselsnummer"];
+  $k1 =
+    11 -
+    ((3 * $number[0] +
+      7 * $number[1] +
+      6 * $number[2] +
+      1 * $number[3] +
+      8 * $number[4] +
+      9 * $number[5] +
+      4 * $number[6] +
+      5 * $number[7] +
+      2 * $number[8]) %
+      11);
+  $k2 =
+    11 -
+    ((5 * $number[0] +
+      4 * $number[1] +
+      3 * $number[2] +
+      2 * $number[3] +
+      7 * $number[4] +
+      6 * $number[5] +
+      5 * $number[6] +
+      4 * $number[7] +
+      3 * $number[8] +
+      2 * $number[9]) %
+      11);
+  if (!(strlen($number) == 11 && $number[9] == $k1 && $number[10] == $k2)) {
+    $arguments["errorMessage"] = "Ugyldig fødselsnummer.";
+    $twig->load("submit.twig")->display($arguments);
+    die();
+  }
 }
 
 // Validate time selection
@@ -78,16 +82,17 @@ if (!is_numeric($_POST["time"])) {
 // All is good, attempt to insert into database
 $query = "
   INSERT INTO paameldinger
-    (navn, tlf, epost, foedselsnummer, tidspunkt_id)
+    (navn, tlf, epost, foedselsnummer, tidspunkt_id, self_declaration)
   VALUES
-    ($1, $2, $3, $4, $5)
+    ($1, $2, $3, $4, $5, $6)
 ";
 $params = [
   $_POST["name"],
   $_POST["tlf"],
   $_POST["mail"],
-  $_POST["fødselsnummer"],
+  $_POST["no_fødselsnummer"] ? null : $_POST["fødselsnummer"],
   $_POST["time"],
+  true,
 ];
 $result = pg_query_params($query, $params);
 
@@ -99,6 +104,7 @@ if (!$result) {
     $twig->load("submit.twig")->display($arguments);
     die();
   } elseif (strpos($error, "paameldinger_unique_tlf_per_tidspunkt")) {
+    // Assuming phone numbers are unique
     $arguments["errorMessage"] =
       "Du kan bare melde deg på en gang i hvert tidsrom.";
     $twig->load("submit.twig")->display($arguments);
@@ -123,7 +129,6 @@ if (!$result) {
 }
 
 // Send confirmation e-mail
-
 $query = "SELECT start_tid, slutt_tid FROM tidspunkter WHERE id = $1";
 $params = [$_POST["time"]];
 $result = pg_query_params($query, $params);
@@ -168,6 +173,7 @@ EOF
 );
 $mail->send();
 
+// Render page
 $arguments["time"] = $time;
 
 $twig->load("submit.twig")->display($arguments);

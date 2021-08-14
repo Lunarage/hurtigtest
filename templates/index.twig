@@ -1,7 +1,5 @@
 {% extends 'html.twig' %}
-
-{% set phoneExpr = '^(\\+[0-9]+)? *([0-9] *){5,}$' %}
-{% set mailExpr = '^\\S+@\\S+$' %}
+{% import 'macros_forms.twig' as forms %}
 
 {% block content %}
   <h1>Hurtigtest</h1>
@@ -9,87 +7,68 @@
     Denne siden er fortsatt under utvikling og er ikke tatt i bruk.
   </p>
   <p>
-    Den personlige informasjonen du sender inn vil bli brukt for å identifiesre
-    deg overfor helsenorge og for å verifisere din påmelding ved oppmøte. Denne
-    informasjonen slettes fra våre systemer en dag etter tidspunktet du
-    melder deg på.
+    For å komme inn på arrangement under immen er det krav om at alle har grønt
+    koronasertifikat.
   </p>
-  {% if free > 0 %}
-    <form
-      id="input-form"
-      method="POST"
-      action="do-submit.php"
-      onSubmit="return validateForm()"
-    >
-      <h2 style="grid-column: 1 / -1; font-weight: bold; text-align: center">
-        Personalia
-      </h2>
-      <label for="input-name">Navn</label>
-      <input id="input-name" type="text" name="name" required />
-      <label for="input-tlf">Telefon</label>
-      <input
-        id="input-tlf"
-        type="text"
-        name="tlf"
-        pattern="{{ phoneExpr }}"
-        required
-      />
-      <label for="input-mail">E-post</label>
-      <input
-        id="input-mail"
-        type="text"
-        name="mail"
-        pattern="{{ mailExpr }}"
-        required
-      />
-      <label for="input-fødselsnummer">Fødselsnummer</label>
-      <input
-        id="input-fødselsnummer"
-        type="text"
-        name="fødselsnummer"
-        onChange="validateFødselsnummer()"
-        required
-      />
-      <h2 style="grid-column: 1 / -1; text-align: center">Tidspunkt</h2>
-      {% for tidspunkt in tidspunkter %}
-        {% set labeltext = tidspunkt.weekday ~ ' ' ~ tidspunkt.day ~ '. '
-          ~ tidspunkt.month
-          ~ '<br/>kl.&nbsp;'
-          ~ tidspunkt.startTime
-          ~ '&nbsp;-&nbsp;'
-          ~ tidspunkt.endTime
-        %}
-        <div style="grid-column: 1 / -1">
-          {% if tidspunkt.paameldte >= tidspunkt.plasser %}
-            <input
-              id="input-time-{{ tidspunkt.id }}"
-              type="radio"
-              value="{{ tidspunkt.id }}"
-              disabled
-            />
-            <label for="input-time-{{ tidspunkt.id }}">
-              <span>Fullt</span>
-              <span>{{ labeltext|raw }}</span>
-            </label>
-          {% else %}
-            <input
-              id="input-time-{{ tidspunkt.id }}"
-              type="radio"
-              name="time"
-              value="{{ tidspunkt.id }}"
-              onChange="validateRadios();"
-            />
-            <label for="input-time-{{ tidspunkt.id }}">
-              <span style="flex-basis: 100%">{{ labeltext|raw }}</span>
-            </label>
-          {% endif %}
-        </div>
-      {% endfor %}
-      <p id="input-message" style="display: none; grid-column: 1 / -1;"></p>
-      <input type="submit" style="grid-column: 1 / -1;" value="Bestill" />
-    </form>
-    <script>loadInfo();</script>
-  {% else %}
-    <p class="info">Det er for øyeblikket ingen ledige tidspunkter</p>
-  {% endif %}
+
+  <p>Det får du hvis du:</p>
+  <ul>
+    <li>Har fått din første vaksine for mellom 3-15 uker den.</li>
+    <li>Vært smittet av Covid i løpet av de siste seks månedene.</li>
+    <li>En negativ koronatest i løpet av de siste 24 timer.</li>
+  </ul>
+
+  <p>
+    Dersom du har ett eller flere av følgende symptomer: feber, hoste, sår hals,
+    eller dersom du har vært i kontakt med noen som har slike symptomer de siste
+    48 timer, – kan du ikke komme til teststasjon eller til arrangement!
+  </p>
+
+  <p>
+    Vi har satt opp en hurtigteststasjon utenfor "Trafon" i Klæbuveien 1, midt
+    mellom Hovedbygget og Studentersamfundet
+  </p>
+  <!-- https://www.google.com/maps/place/Trafon/@63.4209991,10.3978665,18z/data=!3m1!4b1!4m5!3m4!1s0x466d31941f6138fb:0x7c23ac6ac8807c75!8m2!3d63.4210095!4d10.3988443<p -->
+  <p>
+    Dersom du er avhengig av å ta en enkel hurtigtest kan du bestille dette ved
+    å klikke på lenken under. Testen er gratis for alle som skal på arrangement.
+    Testen må ikke være eldre enn 24 timer fra testtidspunkt til
+    arrangementsstart.
+  </p>
+
+  <p>
+    Ved negativ test vil du få testbevis i helsenorge på mobil. Dette må vises
+    frem sammen med billett til arrangement.
+  </p>
+
+  <p>
+    Ved positiv test får du beskjed om å gå hjem og holde deg hjemme i
+    isolasjon. Smittevernseksjonen ved Trondheim kommune får umiddelbar beskjed
+    og smittesporing vil bli iverksatt.
+  </p>
+
+  <p>
+    Husk å laste ned "Helsenorge"-appen, og logg på, og finn frem
+    koronasertifikatet før du kommer til arrangementet. Da går alt så mye
+    raskere.
+  </p>
+
+  {% set checkboxtext =
+    'Jeg bekrefter at jeg jeg er frisk, og ikke har noen av følgende symptomer:
+      feber, hoste, sår hals, og at jeg ikke har vært i kontakt med noen som har
+      slike symptomer de siste 24 timer.'
+  %}
+  {{
+    forms.checkbox(
+      'self-declaration',
+      'self-declaration',
+      checkboxtext,
+      'selfDeclarationBox()'
+    )
+  }}
+  <a style="display: none;" id="link-form" href="/form.php">
+    Bestill hurtigtest
+  </a>
+  <script>selfDeclarationBox()</script>
 {% endblock %}
+

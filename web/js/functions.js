@@ -28,6 +28,8 @@ function loadInfo() {
 
 function validateFødselsnummer() {
   const fødselsnummer = document.getElementById("input-fødselsnummer");
+  const labelFødselsnummer = document.getElementById("label-fødselsnummer");
+  const noFødselsnummer = document.getElementById("input-no-fødselsnummer");
   number = fødselsnummer.value.toString().split("");
   k1 =
     11 -
@@ -54,6 +56,15 @@ function validateFødselsnummer() {
       3 * number[8] +
       2 * number[9]) %
       11);
+  if (noFødselsnummer.checked) {
+    fødselsnummer.disabled = true;
+    fødselsnummer.style.display = "none";
+    labelFødselsnummer.style.display = "none";
+    return true;
+  }
+  fødselsnummer.disabled = false;
+  fødselsnummer.style.display = "inline-block";
+  labelFødselsnummer.style.display = "inline-block";
   if (number.length == 11 && number[9] == k1 && number[10] == k2) {
     fødselsnummer.setCustomValidity("");
     return true;
@@ -74,7 +85,7 @@ function validateRadios() {
       radioValid = true;
     }
   });
-  if(!radioValid){
+  if (!radioValid) {
     messageBox.innerText = "Du må velge et tidspunkt.";
     messageBox.className = "error";
     messageBox.style.display = "block";
@@ -83,8 +94,7 @@ function validateRadios() {
 }
 
 function validateForm() {
-
-  if (!validateRadios()){
+  if (!validateRadios()) {
     return false;
   }
   if (!validateFødselsnummer()) {
@@ -92,4 +102,15 @@ function validateForm() {
   }
   saveInfo();
   return true;
+}
+
+function selfDeclarationBox() {
+  let checkbox = document.getElementById("self-declaration");
+  let link = document.getElementById("link-form");
+
+  if (checkbox.checked) {
+    link.style.display = "block";
+  } else {
+    link.style.display = "none";
+  }
 }

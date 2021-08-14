@@ -1,0 +1,27 @@
+{% macro checkbox(id, name, text, onClick, isChecked = false, isDisabled = false, value = 1) %}
+{#
+Default sender ikke en checkbox data hvis den ikke er checked.
+Checkbox som er checked sender $_POST[id] = on
+Checkbox som ikke er checked sender ingenting. $_POST[id] = off er ikke en greie :( antagelig for å spare data?
+Derfor er det en hidden input før checkboxen som disables når man checker den:
+if(this.checked){this.previousSibling.disabled=true;}else{this.previousSibling.disabled=false;}
+Sånn får man gjennom som en POST-variabel om en checkbox ikke er checked... gotta love that HTML...
+#}
+<div class='checkbox'>
+    <input type='hidden'
+        name="{{ name }}"
+        value=0
+        {% if isChecked %} disabled {% endif %}
+        >
+    <input type='checkbox'
+        value="{{ value }}"
+        id="{{ id }}"
+        name="{{ name }}"
+        onClick='if(this.checked){this.previousElementSibling.disabled=true;}else{this.previousElementSibling.disabled=false;};{{ onClick|e }}'
+        {% if isChecked %} checked {% endif %}
+        {% if isDisabled %} disabled {% endif %}
+        >
+        <label for="{{ id }}"></label>
+        {% if text %}<label for="{{ id }}">{{ text|e }}</label>{% endif %}
+</div>
+{% endmacro %}
