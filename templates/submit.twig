@@ -19,20 +19,19 @@
     </p>
   {% else %}
     <p class="ok">Vellykket registrering!</p>
-    <p>Du har fått en bekreftelse på e-post.</p>
-    <p>
-      Id enim. Etiam mollis tempus neque. Duis tincidunt commodo elit.
-
-      Aenean pellentesque purus eu mi. Proin commodo, massa commodo dapibus
-      elementum, libero lacus pulvinar eros, ut tincidunt nisl elit ut velit.
-      Cras rutrum porta purus. Vivamus lorem. Sed turpis enim, faucibus quis,
-      pharetra in, sagittis sed, magna. Curabitur ultricies felis ut libero.
-      Nullam tincidunt enim eu nibh. Nunc eget ipsum in sem facilisis convallis.
-      Proin fermentum risus. Vestibulum ante ipsum primis in faucibus orci
-      luctus et ultrices posuere cubilia Curae; Vestibulum hendrerit malesuada
-      odio. Fusce ut elit ut augue sollicitudin blandit. Phasellus volutpat
-      lorem. Duis non pede et neque luctus tincidunt. Duis.
-    </p>
+    <div>
+      <p>Du har fått en bekreftelse på e-post:</p>
+      <p>
+        Tid: {{ time }}<br />
+        Sted: Teststasjon utenfor Trafon, Høyskoleparken, Klæbuveien 1
+      </p>
+      <p>Husk:</p>
+      <ul>
+        <li>Møt presis</li>
+        <li>Bruk munnbind</li>
+        <li>Ta med legitimasjon</li>
+      </ul>
+    </div>
   {% endif %}
   <a href="/">Bestill ny test</a>
 {% endblock %}

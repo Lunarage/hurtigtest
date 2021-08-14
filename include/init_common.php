@@ -74,13 +74,24 @@ function monthToNorwegian(int $month): string
   }
 }
 
+/**
+ * Sets up an PHPMailer object with some default configuration.
+ *
+ * @TODO Use smtp to send
+ *
+ * @author maghal (Magne "Peach" Halvorsen)
+ *
+ * @return \PHPMailer\PHPMailer\PHPMailer [TODO:description]
+ */
 function setupMail(): PHPMailer
 {
+  // Parameter true to enable usage of exceptions
   $mail = new PHPMailer(true);
+  // UTF-8 encoding
   $mail->CharSet = PHPMailer::CHARSET_UTF8;
 
   // TODO: Sette denne til riktig sender
-  $mail->setFrom("noreply@samfundet.no");
+  $mail->setFrom("noreply@samfundet.no", "Hurtigtest");
 
   return $mail;
 }

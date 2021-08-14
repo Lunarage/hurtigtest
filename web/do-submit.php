@@ -122,6 +122,54 @@ if (!$result) {
   }
 }
 
+// Send confirmation e-mail
+
+$query = "SELECT start_tid, slutt_tid FROM tidspunkter WHERE id = $1";
+$params = [$_POST["time"]];
+$result = pg_query_params($query, $params);
+$row = pg_fetch_array($result);
+
+$recipient = $_POST["mail"];
+// Create a string like "mandag 16.08.2021 kl. 12:00 - 12:30"
+// https://www.php.net/manual/en/datetime.format.php
+$time = weekdayToNorwegian((int) date("N", strtotime($row["start_tid"]))) .
+  " " .
+  date("d.m.Y", strtotime($row["start_tid"])) .
+  " kl. " .
+  date("H:i", strtotime($row["start_tid"])) .
+  " - " .
+  date("H:i", strtotime($row["slutt_tid"]));
+
+
+$mail = setupMail();
+$mail->Subject = "Bestilling av Hurtigtest";
+$mail->addAddress($recipient);
+$mail->msgHTML(
+<<<EOF
+<html><head><title>Bestilling av Hurtigtest</title></head>
+<body>
+  <p>Hei.</p>
+  <p>Vi bekrefter din bestilling av følgende time for hurtigtest:</p>
+  <p>Tid: $time<br/>
+  Sted: Teststasjon utenfor Trafon, Høyskoleparken, Klæbuveien 1</p>
+  <p>Husk:</p>
+  <ul>
+    <li>Møt presis</li>
+    <li>Bruk munnbind</li>
+    <li>Ta med legitimasjon</li>
+  </ul>
+  <p>Denne e-posten er automagisk generert og kan ikke besvares.</p>
+  <p>Vennlig hilsen<br />
+  Hurtigteststasjonen
+  </p>
+</body>
+</html>
+EOF
+);
+$mail->send();
+
+$arguments["time"] = $time;
+
 $twig->load("submit.twig")->display($arguments);
 
 ?>
