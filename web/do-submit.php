@@ -5,6 +5,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 require_once "libphp-phpmailer/autoload.php";
 
 $arguments["title"] = "Hurtigtest";
+$arguments["lang"] = $_GET["lang"];
 
 // Check that all inputs are set
 if (
