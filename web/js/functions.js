@@ -3,6 +3,7 @@ function saveInfo() {
   const tlf = document.getElementById("input-tlf");
   const mail = document.getElementById("input-mail");
   const fødselsnummer = document.getElementById("input-fødselsnummer");
+  const noFødselsnummer = document.getElementById("input-no-foedselsnummer");
 
   let storage = window.localStorage;
 
@@ -10,6 +11,7 @@ function saveInfo() {
   storage.setItem("tlf", tlf.value);
   storage.setItem("mail", mail.value);
   storage.setItem("fødselsnummer", fødselsnummer.value);
+  storage.setItem("no-fødselsnummer", noFødselsnummer.value);
 }
 
 function loadInfo() {
@@ -17,6 +19,7 @@ function loadInfo() {
   const tlf = document.getElementById("input-tlf");
   const mail = document.getElementById("input-mail");
   const fødselsnummer = document.getElementById("input-fødselsnummer");
+  const noFødselsnummer = document.getElementById("input-no-foedselsnummer");
 
   let storage = window.localStorage;
 
@@ -24,6 +27,7 @@ function loadInfo() {
   tlf.value = storage.getItem("tlf");
   mail.value = storage.getItem("mail");
   fødselsnummer.value = storage.getItem("fødselsnummer");
+  noFødselsnummer.checked = sotrage.getItem("no-fødselsnummer");
 }
 
 function validateFødselsnummer() {
