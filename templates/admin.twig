@@ -1,0 +1,17 @@
+{% extends 'html.twig' %}
+
+{% block content %}
+  <h1>Administrasjon</h1>
+  {% for tidspunkt in tidspunkter %}
+  <div style="border: solid 1px var(--input-border-color); border-radius: 4px; padding: 0 1em; margin: 0.75em 0">
+    <h2>
+      {{ tidspunkt.weekday ~ ' ' ~ tidspunkt.day ~ '. ' ~ tidspunkt.month }}
+      {{ tidspunkt.startTime ~ ' - ' ~ tidspunkt.endTime }}
+    </h2>
+    <ul>
+      <li>Påmeldte: {{ tidspunkt.antall }} / {{ tidspunkt.plasser }}</li>
+      <li><a href="rapport.php?tidspunkt={{ tidspunkt.id }}">Rapport</a></li>
+    </ul>
+  </div>
+  {% endfor %}
+{% endblock %}

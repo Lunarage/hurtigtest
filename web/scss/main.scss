@@ -146,7 +146,7 @@ p.error {
 ul {
   font-size: $font-size;
 
-  p + & {
+  p + &, h1 + &, h2 + & {
     margin-top: 0;
     margin-bottom: $element-margin;
   }
@@ -183,7 +183,7 @@ table.rapport {
     background-color: var(--background-color);
   }
 
-  td:not(.box), th {
+  td:not(.box), th:not(.title) {
     border-bottom: {
       width: 1px;
       style: solid;
@@ -192,8 +192,13 @@ table.rapport {
     padding: 0.25em;
   }
 
+  td.box {
+    display: none;
+  }
+
   @media print {
     td.box {
+      display: table-cell;
       width: 3ch;
       border: {
         style: solid;
@@ -214,8 +219,12 @@ a, a:visited {
 }
 
 // Select all links that are not a direct decendant of a paragraph
-:not(p) > a {
+:not(p):not(li) > a {
   font-size: $font-size;
+  padding: 0 {
+    top: 1em;
+    bottom: 1em;
+  }
 }
 
 /* Form */
@@ -455,10 +464,7 @@ iframe {
   }
 
   a {
-    padding: 0 {
-      top: 1em;
-      bottom: 1em;
-    }
+    padding: 0;
   }
 }
 
