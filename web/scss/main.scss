@@ -45,6 +45,14 @@ body {
 
   background-color: var(--background-color);
   color: var(--text-color);
+
+  @media print {
+    color: black;
+    min-height: none;
+    max-width: none;
+    width: 210mm;
+    height: 297mm;
+  }
 }
 
 div.content {
@@ -58,6 +66,12 @@ div.content {
   display: flex;
   flex-flow: column nowrap;
   align-items: flex-start;
+
+  @media print {
+    width: 100%;
+    min-height: 0;
+    display: block;
+  }
 }
 
 div.footer {
@@ -70,6 +84,11 @@ div.footer {
   @media print {
     display: none;
   }
+}
+
+@page {
+  size: A4;
+  margin: 15mm;
 }
 
 /* Paragraphs */
@@ -140,24 +159,35 @@ ul {
 /* Tables */
 table.rapport {
   border-spacing: 0;
+  page-break-inside: auto;
 
-  th {
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  th, td{
     text-align: left;
+    color: inherit;
   }
 
-  tbody:nth-child(2n){
-    background-color: #EEE;
+  tbody > tr:nth-child(2n+1) > td:not(.box){
+    background-color: var(--input-background-color);
   }
 
-  tbody:nth-child(2n+1){
-    background-color: #FFF;
+  tbody > tr:nth-child(2n) > td:not(.box){
+    background-color: var(--background-color);
   }
 
-  td:not([class]), th {
+  td:not(.box), th {
     border-bottom: {
       width: 1px;
       style: solid;
-      color: black;
+      color: var(--input-border-color);
     }
     padding: 0.25em;
   }
@@ -171,6 +201,10 @@ table.rapport {
         color: black;
       }
     }
+
+    font-size: 1em;
+    color: black;
+    width: 100%;
   }
 }
 
