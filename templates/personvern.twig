@@ -1,14 +1,57 @@
 {% extends 'html.twig' %}
 
 {% block content %}
-{% if lang == "en" %}
-  <h1>Privacy Policy</h1>
-{% else %}
   <h1>Personvernserklæring</h1>
-  <a href="?lang=en">English version</a>
-  <p>Hei Magne. Skriv inn det du vil her!</p>
-  <a href="mailto:example@example.com">example@example.com</a>
-  <a href="tel:81549300">81549300</a>
-{% endif %}
+  <p>Registreringssystemet for hurtigtest er utviklet og driftet av
+  Studentersamfundet i Trondheim, med formål å gi en trygg og effektiv
+  avvikling av hurtigtesting for Covid-19-smitte.</p>
+  <p>Dataene som samles inn er:
+  <ul>
+  <li>Navn</li>
+  <li>Epostadresse</li>
+  <li>Telefonnummer</li>
+  <li>Fødselsnummer</li>
+  <li>Samsvarsbekreftelse</li>
+  <li>Tidspunkt for registrering</li>
+  <li>Ønsket tidspunkt for test</li>
+  </ul>
+  </p>
+  <p>
+  Fødselsnummer blir samlet inn for å kunne registrere prøven hos <a href="https://helsenorge.no">helsenorge.no</a>.
+  Navn, epostadresse, og telefonnummer samles inn for at kommunens smittevernteam
+  skal kunne få kontakt med vedkommende dersom prøven gir positivt resultat for
+  Covid-19.
+  </p>
+  <p>
+  Dataene blir utelukkende benyttet til administrasjon av hurtigtestene, og de
+  blir slettet senest 24 timer etter at testen er gjennomført. Alle data
+  lagres i Trondheim, i databehandlers eget datasystem, og overføres ikke til andre
+  enn de som er nevnt under.
+  </p>
+  <p>Prøvesvar overføres til <a href="https://helsenorge.no">helsenorge.no</a> (personnummer
+  blir benyttet her), for å kunne utstede koronasertifikat.
+  </p>
+  <p>
+  Ved positiv test (dvs. at det er funnet Covid-19 i prøven) vil navn, epostadresse,
+  og telefonnummer bli oversendt kommunens smittesporingsteam for videre
+  oppfølging. Personnummer blir ikke oversendt.
+  </p>
+  <p>Alle registrerte har rett til å trekke tilbake samsvarsbekreftelse, kreve innsyn,
+  retting, sletting, eller gjøre gjeldende andre innsigelser. Kontakt databehandlingsansvarlig
+  for dette. Registrerte kan også klage på behandlingen direkte til <a href="https://datatilsynet.no">
+  Datatilsynet</a></p>
+  <p>Systemet har serverlogger som viser IP-adresse, tidspunkt, nettleser, og hvilke sider som ble åpnet.
+  Disse benyttes kun til å sikre forsvarlig drift av systemet, og er kun tilgjengelig for våre
+  driftsfolk. De registrerte dataene er ikke tilgjengelige her.  Loggene deles ikke med andre,
+  og slettes automatisk etter 30 dager.
+  </p>
+  <p>
+  Databehandlingsansvarlig er <a href="https://www.samfundet.no/">Studentersamfundet i Trondhjem</a> 
+  (orgnr: 970088466), som
+  kan kontaktes på epost <a href="mailto:daglig.leder@samfundet.no">daglig.leder@samfundet.no</a>,
+  evt. telefon <a href="tel:99215951">992 15 951</a>.
+  </p>
+  <p>Ved tekniske spørsmål eller feil, kontakt <a href="mailto:itk@samfundet.no">ITK</a>
+  </p>
 {% endblock %}
 
