@@ -1,4 +1,14 @@
 <?php
+/**
+ * Sign up for rapid test of COVID-19.
+ *
+ * do-submit.php
+ * Validates the form data, sends confirmation mail
+ * and inserts into database.
+ * Renders submit.twig
+ *
+ * @author maghal (Magne "Peach" Halvorsen)
+ */
 require_once "../include/init.php";
 
 use PHPMailer\PHPMailer\PHPMailer;

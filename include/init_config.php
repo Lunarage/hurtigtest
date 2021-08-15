@@ -1,4 +1,10 @@
 <?php
+/**
+ * Sign up for rapid test of COVID-19.
+ *
+ * @author maghal (Magne "Peach" Halvorsen)
+ */
+
 if (file_exists(dirname(__FILE__) . "/config-local.php")) {
   include "config-local.php";
   define("ERROR_MAIL", $config["error-mail"]);

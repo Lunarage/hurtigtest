@@ -1,4 +1,10 @@
 <?php
+/**
+ * Sign up for rapid test of COVID-19.
+ *
+ * @author maghal (Magne "Peach" Halvorsen)
+ */
+
 require_once dirname(__FILE__)."/init_config.php";
 
 $db_connect_string =

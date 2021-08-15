@@ -1,4 +1,11 @@
 <?php
+/**
+ * Sign up for rapid test of COVID-19.
+ *
+ * A collection of useful functions.
+ *
+ * @author maghal (Magne "Peach" Halvorsen)
+ */
 
 use PHPMailer\PHPMailer\PHPMailer;
 require_once "libphp-phpmailer/autoload.php";

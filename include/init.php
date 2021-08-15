@@ -1,4 +1,12 @@
 <?php
+/**
+ * Sign up for rapid test of COVID-19.
+ *
+ * Renders index.twig
+ *
+ * @author maghal (Magne "Peach" Halvorsen)
+ */
+
 // Enable strict typing
 declare(strict_types=1);
 // Strict error reporting
