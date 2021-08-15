@@ -177,14 +177,11 @@ table.rapport {
 /* Links */
 a, a:visited {
   color: blue;
-  font-size: $font-size;
+}
 
-  &:not([class]) {
-    margin: 0 {
-      top: $element-margin;
-      bottom: $element-margin;
-    }
-  }
+// Select all links that are not a direct decendant of a paragraph
+:not(p) > a {
+  font-size: $font-size;
 }
 
 /* Form */

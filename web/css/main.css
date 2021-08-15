@@ -152,12 +152,10 @@ table.rapport td:not([class]), table.rapport th {
 /* Links */
 a, a:visited {
   color: blue;
-  font-size: 1.2em;
 }
-a:not([class]), a:visited:not([class]) {
-  margin: 0;
-  margin-top: 0.75em;
-  margin-bottom: 0.75em;
+
+:not(p) > a {
+  font-size: 1.2em;
 }
 
 /* Form */
