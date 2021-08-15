@@ -7,6 +7,7 @@ $query = "
   SELECT *, (SELECT COUNT(*) FROM paameldinger WHERE tidspunkt_id = tidspunkter.id) AS paameldte
   FROM tidspunkter
   WHERE slutt_tid > NOW()
+  ORDER BY start_tid
 ";
 $result = pg_query($query);
 
