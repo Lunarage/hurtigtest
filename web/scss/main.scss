@@ -66,6 +66,10 @@ div.footer {
   justify-content: center;
   margin: 0;
   padding: 1em;
+
+  @media print {
+    display: none;
+  }
 }
 
 /* Paragraphs */
@@ -394,6 +398,17 @@ div.checkbox {
     cursor: default;
     background-color: var(--input-disabled-background-color);
     border-color: var(--input-disabled-border-color);
+  }
+}
+
+/* iframe for map */
+iframe {
+  width: 600px;
+  max-width: 100%;
+
+  margin: 0 {
+    top: $element-margin;
+    bottom: $element-margin;
   }
 }
 
