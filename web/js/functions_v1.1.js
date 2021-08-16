@@ -1,3 +1,5 @@
+"use strict";
+
 function saveInfo() {
   const name = document.getElementById("input-name");
   const tlf = document.getElementById("input-tlf");
@@ -30,49 +32,83 @@ function loadInfo() {
   noFødselsnummer.checked = storage.getItem("no-fødselsnummer");
 }
 
+/**
+ * Validation of personnummer.
+ *
+ * {@link https://github.com/navikt/fnrvalidator}
+ *
+ * @param {string} digits - personnumer
+ * @return {bool} True on valid number and false on invalid number
+ */
+function idnr(digits) {
+  /* Check if the number has 11 digits */
+  const elevendigits = new RegExp("^\\d{11}$");
+  if (!elevendigits.test(digits)) {
+    return false;
+  }
+
+  /* Checksums */
+  let k1 =
+    11 -
+    ((3 * digits[0] +
+      7 * digits[1] +
+      6 * digits[2] +
+      1 * digits[3] +
+      8 * digits[4] +
+      9 * digits[5] +
+      4 * digits[6] +
+      5 * digits[7] +
+      2 * digits[8]) %
+      11);
+  let k2 =
+    11 -
+    ((5 * digits[0] +
+      4 * digits[1] +
+      3 * digits[2] +
+      2 * digits[3] +
+      7 * digits[4] +
+      6 * digits[5] +
+      5 * digits[6] +
+      4 * digits[7] +
+      3 * digits[8] +
+      2 * digits[9]) %
+      11);
+
+  if (k1 === 11) {
+    k1 = 0;
+  }
+  if (k2 === 11) {
+    k2 = 0;
+  }
+
+  return k1 < 10 && k2 < 10 && k1 == digits[9] && k2 == digits[10];
+}
+
 function validateFødselsnummer() {
   const fødselsnummer = document.getElementById("input-fødselsnummer");
   const labelFødselsnummer = document.getElementById("label-fødselsnummer");
   const noFødselsnummer = document.getElementById("input-no-fødselsnummer");
-  number = fødselsnummer.value.toString().split("");
-  k1 =
-    11 -
-    ((3 * number[0] +
-      7 * number[1] +
-      6 * number[2] +
-      1 * number[3] +
-      8 * number[4] +
-      9 * number[5] +
-      4 * number[6] +
-      5 * number[7] +
-      2 * number[8]) %
-      11);
-  k2 =
-    11 -
-    ((5 * number[0] +
-      4 * number[1] +
-      3 * number[2] +
-      2 * number[3] +
-      7 * number[4] +
-      6 * number[5] +
-      5 * number[6] +
-      4 * number[7] +
-      3 * number[8] +
-      2 * number[9]) %
-      11);
+  const digits = fødselsnummer.value;
+
+  /* Disable input if user don't have an id number */
   if (noFødselsnummer.checked) {
     fødselsnummer.disabled = true;
     fødselsnummer.style.display = "none";
     labelFødselsnummer.style.display = "none";
     return true;
   }
+
+  /* Otherwise, enable and check */
   fødselsnummer.disabled = false;
   fødselsnummer.style.display = "inline-block";
   labelFødselsnummer.style.display = "inline-block";
-  if (number.length == 11 && number[9] == k1 && number[10] == k2) {
+
+  if (idnr(digits)) {
     fødselsnummer.setCustomValidity("");
     return true;
   }
+  
+  /* Set invalid input status */
   fødselsnummer.setCustomValidity("Invalid input");
   return false;
 }
@@ -91,7 +127,7 @@ function validateRadios() {
     }
   });
   if (!radioValid) {
-    if(urlParams.get("lang") == "en") {
+    if (urlParams.get("lang") == "en") {
       messageBox.innerText = "You must choose a timeframe.";
     } else {
       messageBox.innerText = "Du må velge et tidspunkt.";

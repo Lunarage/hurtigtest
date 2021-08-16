@@ -81,7 +81,15 @@ if (!$_POST["no_fødselsnummer"]) {
       3 * $number[8] +
       2 * $number[9]) %
       11);
-  if (!(strlen($number) == 11 && $number[9] == $k1 && $number[10] == $k2)) {
+
+  if ($k1 === 11) {
+    $k1 = 0;
+  }
+  if ($k2 === 11) {
+    $k2 = 0;
+  }
+
+  if (!($k1 < 10 && $k2 < 10 && $k1 == $number[9] && $k2 == $number[10])) {
     $arguments["errorMessage"] =
       $_GET["lang"] == "en"
         ? "Invalid personal ID number."
