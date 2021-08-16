@@ -43,7 +43,7 @@
     <tbody>
       {% for person in people %}
         <tr>
-          <td>{{ person.navn }}</td>
+          <td><a href="person.php?id={{ person.id }}">{{ person.navn }}</a></td>
           <td>{{ person.foedselsnummer }}</td>
           <td>{{ person.tlf }}</td>
           <td>{{ person.epost }}</td>

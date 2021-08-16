@@ -2,6 +2,7 @@
 
 {% block content %}
   <h1>Administrasjon</h1>
+  <a href="person.php">Blankt registreringsskjema</a>
   {% for tidspunkt in tidspunkter %}
   <div style="border: solid 1px var(--input-border-color); border-radius: 4px; padding: 0 1em; margin: 0.75em 0">
     <h2>
@@ -13,5 +14,5 @@
       <li><a href="rapport.php?tidspunkt={{ tidspunkt.id }}">Rapport</a></li>
     </ul>
   </div>
-  {% endfor %}
+  {% endfor %}<br />
 {% endblock %}

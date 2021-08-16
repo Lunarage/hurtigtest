@@ -1,0 +1,68 @@
+{% extends 'html.twig' %}
+{% import 'macros_forms.twig' as forms %}
+
+{% block style %}
+  <style>@media print { #rapport-form { display: none; } }</style>
+{% endblock %}
+
+{% block content %}
+  <form method="GET" action="" id="rapport-form">
+    <button style="grid-column: 1 / -1" type="button" onClick="window.print()">
+      Skriv ut
+    </button>
+  </form>
+  <h1>Koronavirus (COVID 19)</h1>
+  <h2>HURTIG ANTIGEN TEST</h2>
+  <table class="person">
+    <tbody>
+      <tr>
+        <th>Navn</th>
+        <td colspan="4">{{ person.navn }}</td>
+      </tr>
+      <tr>
+        <th>Fødsels- og Personnummer<br/>(11-siffer)</th>
+        <td colspan="4">{{ person.foedselsnummer }}</td>
+      </tr>
+      <tr>
+        <th>Mobil</th>
+        <td colspan="4">{{ person.tlf }}</td>
+      </tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr>
+        <th>Føler du deg frisk?</th>
+        <td>Ja</td>
+        <td class="box">&nbsp;</td>
+        <td>Nei</td>
+        <td class="box">&nbsp;</td>
+      </tr>
+      <tr>
+        <th>Hoster du?</th>
+        <td>Ja</td>
+        <td class="box">&nbsp;</td>
+        <td>Nei</td>
+        <td class="box">&nbsp;</td>
+      </tr>
+      <tr>
+        <th>Har du feber?</th>
+        <td>Ja</td>
+        <td class="box">&nbsp;</td>
+        <td>Nei</td>
+        <td class="box">&nbsp;</td>
+      </tr>
+      <tr>
+        <th>Har du vondt i halsen?</th>
+        <td>Ja</td>
+        <td class="box">&nbsp;</td>
+        <td>Nei</td>
+        <td class="box">&nbsp;</td>
+      </tr>
+      <tr>
+        <th>Har du vært i kontakt med noen som er syk?</th>
+        <td>Ja</td>
+        <td class="box">&nbsp;</td>
+        <td>Nei</td>
+        <td class="box">&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
+{% endblock %}
