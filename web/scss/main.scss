@@ -76,6 +76,7 @@ div.content {
 
 div.footer {
   display: flex;
+  flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
   margin: 0;
@@ -83,6 +84,13 @@ div.footer {
 
   @media print {
     display: none;
+  }
+
+  .footerlogo {
+    max-width: 100%;
+    border-radius: 4px;
+    padding: 0.75em;
+    background-color: #EEE;
   }
 }
 
@@ -107,7 +115,7 @@ p {
   }
 }
 
-p.info, p.ok, p.error {
+.info, .ok, .error {
   border-width: 2px;
   border-style: solid;
   border-radius: 4px;
@@ -120,9 +128,13 @@ p.info, p.ok, p.error {
   background-repeat: no-repeat;
   background-size: 0.9em;
   background-position: left 0.1em top 0.1em;
+
+  a, a:visited {
+    color: blue;
+  }
 }
 
-p.info {
+.info {
   border-color: #DD2;
   background-color: #FF7;
   color: #333;
@@ -130,7 +142,7 @@ p.info {
   background-image: url('/images/info.svg');
 }
 
-p.ok {
+.ok {
   border-color: #2D2;
   background-color: #7F7;
   color: #333;
@@ -138,7 +150,7 @@ p.ok {
   background-image: url('/images/ok.svg');
 }
 
-p.error {
+.error {
   border-color: #D22;
   background-color: #F77;
   color: #333;

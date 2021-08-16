@@ -18,18 +18,20 @@
     />
     <link rel="stylesheet" href="/css/main.css" />
     <script src="/js/functions_v1.1.js"></script>
-    {% block script %}
-    {% endblock %}
+    {% block script %}{% endblock %}
     {% block style %}{% endblock %}
   </head>
   <body>
-    <div class="content">{% block content %}{% endblock %}</div>
+    <div class="content">
+      {% block content %}{% endblock %}
+    </div>
     <div class="footer">
       {% if lang == 'en' %}
         <a href="/personvern.php?lang=en">Privacy Policy</a>
       {% else %}
         <a href="/personvern.php">Personvernserklæring</a>
       {% endif %}
+      <a href="https://samfundet.no"><img class="footerlogo" src="/images/Samfundetlogo.png" /></a>
     </div>
   </body>
 </html>
