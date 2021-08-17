@@ -9,6 +9,7 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 require_once "libphp-phpmailer/autoload.php";
+require_once "init_config.php";
 
 /**
  * Converts ISO-8601 numeric representation of the day of the week
@@ -98,7 +99,7 @@ function setupMail(): PHPMailer
   $mail->CharSet = PHPMailer::CHARSET_UTF8;
 
   // TODO: Sette denne til riktig sender
-  $mail->setFrom("noreply@samfundet.no", "Hurtigtest");
+  $mail->setFrom(SENDER_MAIL, "Hurtigtest");
 
   return $mail;
 }
