@@ -6,6 +6,7 @@
 
 {% block content %}
   {% if lang == 'en' %}
+    {% set timeInfo = 'More timeframes are published about 24 hours before they start.' %}
     {% set action = 'do-submit.php?lang=en' %}
     {% set hurtigtest = 'Rapid test' %}
     {% set personalia = 'Personalia' %}
@@ -22,6 +23,7 @@
     {% set bestill = 'Sign up' %}
   {% else %}
     {# Defaults to norwegian #}
+    {% set timeInfo = 'Flere tidspunkter legges ut ca et døgn i forveien.' %}
     {% set action = 'do-submit.php' %}
     {% set hurtigtest = 'Hurtigtest' %}
     {% set personalia = 'Personalia' %}
@@ -39,6 +41,7 @@
   {% if lang != 'en' %}
     <a href="?lang=en">English version</a>
   {% endif %}
+  <p>{{ timeInfo }}</p>
   {% if free > 0 %}
     <form
       id="input-form"
