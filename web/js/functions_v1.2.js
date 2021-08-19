@@ -13,7 +13,7 @@ function saveInfo() {
   storage.setItem("tlf", tlf.value);
   storage.setItem("mail", mail.value);
   storage.setItem("fødselsnummer", fødselsnummer.value);
-  storage.setItem("no-fødselsnummer", noFødselsnummer.value);
+  storage.setItem("no-fødselsnummer", noFødselsnummer.checked ? 1 : 0);
 }
 
 function loadInfo() {
@@ -29,7 +29,11 @@ function loadInfo() {
   tlf.value = storage.getItem("tlf");
   mail.value = storage.getItem("mail");
   fødselsnummer.value = storage.getItem("fødselsnummer");
-  noFødselsnummer.checked = storage.getItem("no-fødselsnummer");
+  if(storage.getItem("no-fødselsnummer") == true) {
+    noFødselsnummer.checked = true;
+  } else {
+    noFødselsnummer.checked = false;
+  }
 }
 
 /**
