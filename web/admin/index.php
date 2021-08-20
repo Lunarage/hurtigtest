@@ -15,7 +15,6 @@ $query = "
   LEFT JOIN hurtigtest.paameldinger AS p
     ON t.id = p.tidspunkt_id
   WHERE age(NOW(), t.slutt_tid) < '12 hours'
-  AND t.start_tid < NOW() + '1 days'
   GROUP BY t.id
   ORDER BY t.start_tid;
 ";
