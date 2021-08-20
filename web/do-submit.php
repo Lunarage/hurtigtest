@@ -144,6 +144,13 @@ if (!$result) {
         : "Du kan bare melde deg på en gang i hvert tidsrom.";
     $twig->load("submit.twig")->display($arguments);
     die();
+  } elseif (strpos($error, "Tidspunktet er forbipassert")) {
+    $arguments["errorMessage"] =
+      $_GET["lang"] == "en"
+        ? "You cannot sign up for a past timeframe."
+        : "Du kan ikke melde deg på et forbipassert tidspunkt.";
+    $twig->load("submit.twig")->display($arguments);
+    die();
   } else {
     $mail = setupMail();
     $mail->Subject = "[Hurtigtest][Error]";

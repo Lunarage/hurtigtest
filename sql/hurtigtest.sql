@@ -38,6 +38,7 @@ CREATE OR REPLACE FUNCTION enforce_plasser() RETURNS trigger AS $$
 DECLARE 
   antall_paameldinger int;
   antall_plasser int;
+  slutt_tid_check timestamp with time zone;
 BEGIN
   -- prevent concurrent inserts from multiple transactions
   LOCK TABLE paameldinger IN EXCLUSIVE MODE;
@@ -52,9 +53,19 @@ BEGIN
   plasser FROM tidspunkter
   WHERE id = NEW.tidspunkt_id;
 
+  -- find end time
+  SELECT INTO slutt_tid_check
+  slutt_tid FROM tidspunkter
+  WHERE id = NEW.tidspunkt_id;
+
   -- raise exception if the timeframe is fully booked
   IF antall_paameldinger >= antall_plasser THEN
     RAISE EXCEPTION 'Tidspunktet er fullt';
+  END IF;
+
+  -- raise exception if the end time is passed
+  IF slutt_tid_check < NOW() THEN
+    RAISE EXCEPTION 'Tidspunktet er forbipassert';
   END IF;
 
   -- if all is good, return the row
