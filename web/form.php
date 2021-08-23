@@ -8,7 +8,8 @@
  */
 require_once "../include/init.php";
 $arguments["title"] = "Hurtigtest";
-$arguments["lang"] = isset($_GET["lang"]) ? $_GET["lang"] : "no-nb";
+$lang = isset($_GET["lang"]) ? $_GET["lang"] : "no-nb";
+$arguments["lang"] = $lang;
 
 $query = "
   SELECT *, (SELECT COUNT(*) FROM paameldinger WHERE tidspunkt_id = tidspunkter.id) AS paameldte
@@ -26,9 +27,15 @@ while ($row = pg_fetch_array($result)) {
   }
   $start_tid = strtotime($row["start_tid"]);
   $slutt_tid = strtotime($row["slutt_tid"]);
-  $row["weekday"] = $_GET["lang"] == "en" ? date("l", $start_tid): weekdayToNorwegian((int) date("N", $start_tid));
+  $row["weekday"] =
+    $lang == "en"
+      ? date("l", $start_tid)
+      : weekdayToNorwegian((int) date("N", $start_tid));
   $row["day"] = date("j", $start_tid);
-  $row["month"] = $_GET["lang"] == "en" ? date("F", $start_tid) : monthToNorwegian((int) date("n", $start_tid));
+  $row["month"] =
+    $lang == "en"
+      ? date("F", $start_tid)
+      : monthToNorwegian((int) date("n", $start_tid));
   $row["startTime"] = date("H:i", $start_tid);
   $row["endTime"] = date("H:i", $slutt_tid);
   $arguments["tidspunkter"][] = $row;

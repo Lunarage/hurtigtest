@@ -15,7 +15,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 require_once "libphp-phpmailer/autoload.php";
 
 $arguments["title"] = "Hurtigtest";
-$arguments["lang"] = isset($_GET["lang"]) ? $_GET["lang"] : "no-nb";
+$lang = isset($_GET["lang"]) ? $_GET["lang"] : "no-nb";
+$arguments["lang"] = $lang;
 
 // Check that all inputs are set
 if (
@@ -28,7 +29,7 @@ if (
   )
 ) {
   $arguments["errorMessage"] =
-    $_GET["lang"] == "en"
+    $lang == "en"
       ? "The form is missing an input"
       : "Skjemaet mangler et feldt.";
   $twig->load("submit.twig")->display($arguments);
@@ -38,7 +39,7 @@ if (
 // Validate phone number
 if (!preg_match('/^(\+[0-9]+)? *([0-9] *){5,}$/', $_POST["tlf"])) {
   $arguments["errorMessage"] =
-    $_GET["lang"] == "en" ? "Invalid phone number" : "Ugyldig telefonnummer.";
+    $lang == "en" ? "Invalid phone number" : "Ugyldig telefonnummer.";
   $twig->load("submit.twig")->display($arguments);
   die();
 }
@@ -46,7 +47,7 @@ if (!preg_match('/^(\+[0-9]+)? *([0-9] *){5,}$/', $_POST["tlf"])) {
 // Validate e-mail address
 if (!PHPMailer::validateAddress($_POST["mail"])) {
   $arguments["errorMessage"] =
-    $_GET["lang"] == "en" ? "Invalid e-mail address" : "Ugyldig e-postadresse.";
+    $lang == "en" ? "Invalid e-mail address" : "Ugyldig e-postadresse.";
   $twig->load("submit.twig")->display($arguments);
   die();
 }
@@ -91,7 +92,7 @@ if (!$_POST["no_fødselsnummer"]) {
 
   if (!($k1 < 10 && $k2 < 10 && $k1 == $number[9] && $k2 == $number[10])) {
     $arguments["errorMessage"] =
-      $_GET["lang"] == "en"
+      $lang == "en"
         ? "Invalid personal ID number."
         : "Ugyldig fødselsnummer.";
     $twig->load("submit.twig")->display($arguments);
@@ -102,7 +103,7 @@ if (!$_POST["no_fødselsnummer"]) {
 // Validate time selection
 if (!is_numeric($_POST["time"])) {
   $arguments["errorMessage"] =
-    $_GET["lang"] == "en"
+    $lang == "en"
       ? "Invalid timeframe chosen"
       : "Ugyldig valg av tidspunkt.";
   $twig->load("submit.twig")->display($arguments);
@@ -131,7 +132,7 @@ if (!$result) {
   $error = pg_last_error();
   if (strpos($error, "Tidspunktet er fullt")) {
     $arguments["errorMessage"] =
-      $_GET["lang"] == "en"
+      $lang == "en"
         ? "The timeframe is fully booked."
         : "Tidspunktet er fullbooket.";
     $twig->load("submit.twig")->display($arguments);
@@ -139,14 +140,14 @@ if (!$result) {
   } elseif (strpos($error, "paameldinger_unique_tlf_per_tidspunkt")) {
     // Assuming phone numbers are unique
     $arguments["errorMessage"] =
-      $_GET["lang"] == "en"
+      $lang == "en"
         ? "You can only sign up once in the same timeframe"
         : "Du kan bare melde deg på en gang i hvert tidsrom.";
     $twig->load("submit.twig")->display($arguments);
     die();
   } elseif (strpos($error, "Tidspunktet er forbipassert")) {
     $arguments["errorMessage"] =
-      $_GET["lang"] == "en"
+      $lang == "en"
         ? "You cannot sign up for a past timeframe."
         : "Du kan ikke melde deg på et forbipassert tidspunkt.";
     $twig->load("submit.twig")->display($arguments);
@@ -165,7 +166,7 @@ if (!$result) {
     $mail->send();
 
     $arguments["errorMessage"] =
-      $_GET["lang"] == "en" ? "Database error" : "Databasefeil";
+      $lang == "en" ? "Database error" : "Databasefeil";
     $twig->load("submit.twig")->display($arguments);
     die();
   }
@@ -181,7 +182,7 @@ $recipient = $_POST["mail"];
 // Create a string like "mandag 16.08.2021 kl. 12:00 - 12:30"
 // https://www.php.net/manual/en/datetime.format.php
 $time =
-  $_GET["lang"] == "en"
+  $lang == "en"
     ? date("L", strtotime($row["start_tid"]))
     : weekdayToNorwegian((int) date("N", strtotime($row["start_tid"]))) .
       " " .
@@ -195,10 +196,10 @@ $name = $_POST["name"];
 
 $mail = setupMail();
 $mail->Subject =
-  $_GET["lang"] == "en" ? "Sign up for rapid test" : "Bestilling av Hurtigtest";
+  $lang == "en" ? "Sign up for rapid test" : "Bestilling av Hurtigtest";
 $mail->addAddress($recipient);
 $mail->msgHTML(
-  $_GET["lang"] == "en"
+  $lang == "en"
     ? <<<EOF
     <html><head><title>Sign up for rapid test</title></head>
     <body>
