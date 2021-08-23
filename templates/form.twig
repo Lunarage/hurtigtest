@@ -6,7 +6,12 @@
 
 {% block content %}
   {% if lang == 'en' %}
-    {% set timeInfo = 'More timeframes are published about 24 hours before they start.' %}
+    {% set symptom =
+      'If you have any symptoms, you cannot use this service.  You have to make an appointment trough Trondheim municipality.'
+    %}
+    {% set timeInfo =
+      'More timeframes are published about 24 hours before they start.'
+    %}
     {% set action = 'do-submit.php?lang=en' %}
     {% set hurtigtest = 'Rapid test' %}
     {% set personalia = 'Personalia' %}
@@ -23,6 +28,9 @@
     {% set bestill = 'Sign up' %}
   {% else %}
     {# Defaults to norwegian #}
+    {% set symptom =
+      ' Dersom du har symptomer, kan du ikke benytte deg av dette tilbudet. Du må da bestille time gjennom Trondheim Kommune.'
+    %}
     {% set timeInfo = 'Flere tidspunkter legges ut ca et døgn i forveien.' %}
     {% set action = 'do-submit.php' %}
     {% set hurtigtest = 'Hurtigtest' %}
@@ -41,6 +49,7 @@
   {% if lang != 'en' %}
     <a href="?lang=en">English version</a>
   {% endif %}
+  <p class="info">{{ symptom }}</p>
   <p>{{ timeInfo }}</p>
   {% if free > 0 %}
     <form
