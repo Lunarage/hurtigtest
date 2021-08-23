@@ -191,6 +191,8 @@ $time =
       " - " .
       date("H:i", strtotime($row["slutt_tid"]));
 
+$name = $_POST["name"];
+
 $mail = setupMail();
 $mail->Subject =
   $_GET["lang"] == "en" ? "Sign up for rapid test" : "Bestilling av Hurtigtest";
@@ -200,7 +202,7 @@ $mail->msgHTML(
     ? <<<EOF
     <html><head><title>Sign up for rapid test</title></head>
     <body>
-      <p>Hello</p>
+      <p>Hello, $name.</p>
       <p>This is a confirmation of your sign up for a rapid test:</p>
       <p>Time: $time<br/>
       Place: Test station beside Trafon, Høyskoleparken, Klæbuveien 1</p>
@@ -210,7 +212,7 @@ $mail->msgHTML(
         <li>Wear a face mask</li>
         <li>Bring ID</li>
       </ul>
-      <p>This e-mail is automagically generated and will not be responded to</p>
+      <p>If you wish to cancel, reply to this e-mail.</p>
       <p>Vennlig hilsen<br />
       Hurtigteststasjonen
       </p>
@@ -220,7 +222,7 @@ $mail->msgHTML(
     : <<<EOF
     <html><head><title>Bestilling av Hurtigtest</title></head>
     <body>
-      <p>Hei.</p>
+      <p>Hei, $name.</p>
       <p>Vi bekrefter din bestilling av følgende time for hurtigtest:</p>
       <p>Tid: $time<br/>
       Sted: Teststasjon utenfor Trafon, Høyskoleparken, Klæbuveien 1</p>
@@ -230,7 +232,7 @@ $mail->msgHTML(
         <li>Bruk munnbind</li>
         <li>Ta med legitimasjon</li>
       </ul>
-      <p>Denne e-posten er automagisk generert og kan ikke besvares.</p>
+      <p>Hvis du ønsker å avbestille, svar på denne e-posten.</p>
       <p>Vennlig hilsen<br />
       Hurtigteststasjonen
       </p>
