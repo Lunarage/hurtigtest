@@ -183,7 +183,13 @@ $recipient = $_POST["mail"];
 // https://www.php.net/manual/en/datetime.format.php
 $time =
   $lang == "en"
-    ? date("L", strtotime($row["start_tid"]))
+    ? date("l", strtotime($row["start_tid"])) .
+      " " .
+      date("d.m.Y", strtotime($row["start_tid"])) .
+      " " .
+      date("H:i", strtotime($row["start_tid"])) .
+      " - " .
+      date("H:i", strtotime($row["slutt_tid"]))
     : weekdayToNorwegian((int) date("N", strtotime($row["start_tid"]))) .
       " " .
       date("d.m.Y", strtotime($row["start_tid"])) .
