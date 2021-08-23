@@ -8,7 +8,7 @@
  */
 require_once "../include/init.php";
 $arguments["title"] = "Hurtigtest";
-$arguments["lang"] = $_GET["lang"];
+$arguments["lang"] = isset($_GET["lang"]) ? $_GET["lang"] : "no-nb";
 
 $twig->load("personvern.twig")->display($arguments);
 ?>

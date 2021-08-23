@@ -15,7 +15,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 require_once "libphp-phpmailer/autoload.php";
 
 $arguments["title"] = "Hurtigtest";
-$arguments["lang"] = $_GET["lang"];
+$arguments["lang"] = isset($_GET["lang"]) ? $_GET["lang"] : "no-nb";
 
 // Check that all inputs are set
 if (
