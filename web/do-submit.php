@@ -218,6 +218,7 @@ $mail->msgHTML(
         <li>Be precise</li>
         <li>Wear a face mask</li>
         <li>Bring ID</li>
+        <li>Bring student ID</li>
       </ul>
       <p>If you wish to cancel, reply to this e-mail.</p>
       <p>Vennlig hilsen<br />
@@ -238,6 +239,7 @@ $mail->msgHTML(
         <li>Møt presis</li>
         <li>Bruk munnbind</li>
         <li>Ta med legitimasjon</li>
+        <li>Ta med studentbevis</li>
       </ul>
       <p>Hvis du ønsker å avbestille, svar på denne e-posten.</p>
       <p>Vennlig hilsen<br />

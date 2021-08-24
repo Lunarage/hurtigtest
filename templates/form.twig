@@ -9,6 +9,7 @@
     {% set symptom =
       'If you have any symptoms, you cannot use this service.  You have to make an appointment trough Trondheim municipality.'
     %}
+    {% set forWhomInfo = 'Remeber that this test is for those who are going to attend an events during "immen". We therefore kindly ask you to bring your student ID.' %}
     {% set timeInfo =
       'More timeframes are published about 24 hours before they start.'
     %}
@@ -31,6 +32,7 @@
     {% set symptom =
       ' Dersom du har symptomer, kan du ikke benytte deg av dette tilbudet. Du må da bestille time gjennom Trondheim Kommune.'
     %}
+    {% set forWhomInfo = 'Husk at denne testen er forbeholdt de som skal på arrangementer under immen. Vi ber deg derfor om å ta med studentbevis når du kommer.' %}
     {% set timeInfo = 'Flere tidspunkter legges ut ca et døgn i forveien.' %}
     {% set action = 'do-submit.php' %}
     {% set hurtigtest = 'Hurtigtest' %}
@@ -51,6 +53,7 @@
   {% endif %}
   <p class="info">{{ symptom }}</p>
   <p>{{ timeInfo }}</p>
+  <p>{{ forWhomInfo }}</p>
   {% if free > 0 %}
     <form
       id="input-form"
