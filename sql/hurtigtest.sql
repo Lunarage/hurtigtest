@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS tidspunkter (
     start_tid timestamp with time zone NOT NULL,
     slutt_tid timestamp with time zone NOT NULL,
     plasser int NOT NULL,
-    CONSTRAINT tidspunkter_pk PRIMARY KEY(id)
+    CONSTRAINT tidspunkter_pk PRIMARY KEY(id),
+    CONSTRAINT unique_timeframe UNIQUE(start_tid, slutt_tid)
   );
 
 REVOKE ALL ON TABLE tidspunkter FROM PUBLIC;
