@@ -53,7 +53,7 @@ div.content {
   margin: 0 auto;
   padding: 0.5rem;
   min-height: 100vh;
-  width: fit-content;
+  width: max-content;
   max-width: 100%;
   display: flex;
   flex-flow: column nowrap;
